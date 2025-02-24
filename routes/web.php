@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CuacaController;
+use App\Http\Controllers\MarketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,5 @@ use App\Http\Controllers\CuacaController;
 Route::get('/', [CuacaController::class, 'home'])->name('cuaca');
 Route::get('/informasi', [CuacaController::class, 'index'])->name('cuaca');
 Route::get('/resistensi', [CuacaController::class, 'resitensi'])->name('cuaca');
+
+Route::get('/marketplace', [MarketController::class, 'showProducts'])->name('products.index');

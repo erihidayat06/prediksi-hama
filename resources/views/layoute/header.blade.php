@@ -15,9 +15,15 @@
                         Informasi</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#">market place</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">kerja sama antar daerah</a>
+                </li>
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ Request::is('resistensi') ? 'active' : '' }}"
                         href="/resistensi">Resistensi</a>
-                </li>
+                </li> --}}
             </ul>
 
         </div>

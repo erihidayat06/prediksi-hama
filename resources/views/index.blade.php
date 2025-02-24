@@ -429,7 +429,7 @@
                                     </li>
                                     <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Ulat Bawang
                                         Merah
-                                        Tabacci
+
                                     </li>
                                     <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Fusarium
                                     </li>
