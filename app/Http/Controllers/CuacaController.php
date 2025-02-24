@@ -22,13 +22,13 @@ class CuacaController extends Controller
 
     public function home()
     {
-        $dataCuaca = dataCuaca()['weatherData'];
+        $dataCuaca = dataCuaca(true)['weatherData'];
         return view('index', compact('dataCuaca'));
     }
 
     public function resitensi()
     {
-        $dataCuaca = dataCuaca()['weatherData'];
+        $dataCuaca = dataCuaca(true)['weatherData'];
         return view('resitensi', compact('dataCuaca'));
     }
 }
