@@ -377,13 +377,6 @@
                         });
                     </script>
 
-
-                    <!-- Bootstrap CSS -->
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-                    <!-- Bootstrap JS (Harus sebelum script modal!) -->
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
                     <!-- Modal Bootstrap -->
                     <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="modalLabel"
                         aria-hidden="true">
