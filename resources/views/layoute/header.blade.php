@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg " data-bs-theme="dark" style="background-color: var(--bs-primary-bg-subtle)">
     <div class="container">
         <a class="navbar-brand" href="#">Pedia</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
