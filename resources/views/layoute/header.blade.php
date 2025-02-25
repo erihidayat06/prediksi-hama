@@ -18,7 +18,7 @@
                     <a class="nav-link" href="#">Informasi Komoditas Penting</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Goot Agricultural Practice</a>
+                    <a class="nav-link" href="#">Good Agricultural Practice</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Market Place</a>
