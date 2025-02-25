@@ -12,13 +12,19 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('informasi') ? 'active' : '' }}" href="/informasi">Bio
-                        Informasi</a>
+                        Informasi Hama Dan Penyakiet</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">market place</a>
+                    <a class="nav-link" href="#">Informasi Komoditas Penting</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">kerja sama antar daerah</a>
+                    <a class="nav-link" href="#">Goot Agricultural Practice</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Market Place</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">kerja Sama antar Daerah</a>
                 </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ Request::is('resistensi') ? 'active' : '' }}"
