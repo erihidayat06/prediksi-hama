@@ -21,42 +21,42 @@
 
         .biru-color {
             cursor: pointer;
-            fill: rgb(17, 40, 247);
+            fill: rgb(26, 40, 163);
         }
 
         .merah-color {
             cursor: pointer;
-            fill: rgb(224, 15, 15);
+            fill: rgb(190, 44, 44);
         }
 
         .hijau-color {
             cursor: pointer;
-            fill: rgb(15, 194, 53);
+            fill: rgb(43, 168, 70);
         }
 
         .oren-color {
             cursor: pointer;
-            fill: rgb(247, 82, 17);
+            fill: rgb(201, 101, 61);
         }
 
         .biru-text {
             cursor: pointer;
-            color: rgb(17, 40, 247);
+            color: rgb(26, 40, 163);
         }
 
         .merah-text {
             cursor: pointer;
-            color: rgb(224, 15, 15);
+            color: rgb(190, 44, 44);
         }
 
         .hijau-text {
             cursor: pointer;
-            color: rgb(15, 194, 53);
+            color: rgb(43, 168, 70);
         }
 
         .oren-text {
             cursor: pointer;
-            color: rgb(247, 82, 17);
+            color: rgb(201, 101, 61);
         }
 
         path:hover {
@@ -334,6 +334,49 @@
 
 
                     </svg>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const paths = document.querySelectorAll("path"); // Ambil semua elemen path
+                            const texts = document.querySelectorAll("text"); // Ambil semua teks
+
+                            texts.forEach(text => {
+                                let x = text.getAttribute("x");
+                                let y = text.getAttribute("y");
+
+                                // Cari path terdekat dengan koordinat teks
+                                let closestPath = null;
+                                let minDistance = Infinity;
+
+                                paths.forEach(path => {
+                                    let bbox = path.getBBox(); // Ambil bounding box dari path
+
+                                    // Cek apakah teks ada di dalam path
+                                    if (x >= bbox.x && x <= bbox.x + bbox.width && y >= bbox.y && y <= bbox.y + bbox
+                                        .height) {
+                                        let distance = Math.abs(bbox.x - x) + Math.abs(bbox.y - y);
+                                        if (distance < minDistance) {
+                                            minDistance = distance;
+                                            closestPath = path;
+                                        }
+                                    }
+                                });
+
+                                if (closestPath) {
+                                    let bgColor = window.getComputedStyle(closestPath).getPropertyValue(
+                                        "fill"); // Ambil warna fill path
+
+                                    // Jika warna hijau, teks jadi hitam, jika selain itu jadi putih
+                                    if (bgColor === "rgb(43, 168, 70)") {
+                                        text.setAttribute("fill", "black");
+                                    } else {
+                                        text.setAttribute("fill", "white");
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+
 
                     <!-- Bootstrap CSS -->
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
