@@ -28,6 +28,8 @@ class UpdateWeatherData extends Command
         // Tanggal yang akan diambil adalah tanggal setelah lastDate
         $newDate = Carbon::parse($lastDate)->addDay()->format('Y-m-d');
 
+        // dd($newDate);
+
         foreach ($kecamatanList as $kecamatan) {
             $lat = $kecamatan->latitude;
             $lon = $kecamatan->longitude;

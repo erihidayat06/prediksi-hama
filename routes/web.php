@@ -17,7 +17,7 @@ use App\Http\Controllers\MarketController;
 
 
 
-Route::get('/', [CuacaController::class, 'home'])->name('cuaca');
+Route::get('/', [CuacaController::class, 'home'])->name('cuaca')->middleware('weather.update');
 Route::get('/informasi', [CuacaController::class, 'index'])->name('cuaca');
 Route::get('/resistensi', [CuacaController::class, 'resitensi'])->name('cuaca');
 
