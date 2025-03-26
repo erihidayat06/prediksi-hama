@@ -27,12 +27,7 @@
              </a>
              <ul id="padi-nav" class="nav-content collapse {{ request()->is('admin/tanaman/padi*') ? 'show' : '' }}"
                  data-bs-parent="#sidebar-nav">
-                 <li>
-                     <a href="{{ url('admin/tanaman/padi/gap') }}"
-                         class="{{ request()->is('admin/tanaman/padi/gap*') ? 'active' : '' }}">
-                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
-                     </a>
-                 </li>
+
                  {{-- <li>
                      <a href="{{ url('admin/tanaman/padi/komoditi') }}"
                          class="{{ request()->is('admin/tanaman/padi/komoditi') ? 'active' : '' }}">
@@ -51,6 +46,12 @@
                          <i class="bi bi-circle"></i><span>Bio Informasi Hama dan Penyakit</span>
                      </a>
                  </li>
+                 <li>
+                     <a href="{{ url('admin/tanaman/padi/gap') }}"
+                         class="{{ request()->is('admin/tanaman/padi/gap*') ? 'active' : '' }}">
+                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
+                     </a>
+                 </li>
              </ul>
          </li>
 
@@ -62,12 +63,7 @@
              </a>
              <ul id="cabai-nav" class="nav-content collapse {{ request()->is('admin/tanaman/cabai*') ? 'show' : '' }}"
                  data-bs-parent="#sidebar-nav">
-                 <li>
-                     <a href="{{ url('admin/tanaman/cabai/gap') }}"
-                         class="{{ request()->is('admin/tanaman/cabai/gap') ? 'active' : '' }}">
-                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
-                     </a>
-                 </li>
+
                  {{-- <li>
                      <a href="{{ url('admin/tanaman/cabai/komoditi') }}"
                          class="{{ request()->is('admin/tanaman/cabai/komoditi') ? 'active' : '' }}">
@@ -86,6 +82,12 @@
                          <i class="bi bi-circle"></i><span>Bio Informasi Hama dan Penyakit</span>
                      </a>
                  </li>
+                 <li>
+                     <a href="{{ url('admin/tanaman/cabai/gap') }}"
+                         class="{{ request()->is('admin/tanaman/cabai/gap') ? 'active' : '' }}">
+                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
+                     </a>
+                 </li>
              </ul>
          </li><!-- End Tables Nav -->
          <li class="nav-item">
@@ -97,12 +99,7 @@
              <ul id="bawang-merah-nav"
                  class="nav-content collapse {{ request()->is('admin/tanaman/bawang-merah*') ? 'show' : '' }}"
                  data-bs-parent="#sidebar-nav">
-                 <li>
-                     <a href="{{ url('admin/tanaman/bawang-merah/gap') }}"
-                         class="{{ request()->is('admin/tanaman/bawang-merah/gap') ? 'active' : '' }}">
-                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
-                     </a>
-                 </li>
+
                  {{-- <li>
                      <a href="{{ url('admin/tanaman/bawang-merah/komoditi') }}"
                          class="{{ request()->is('admin/tanaman/bawang-merah/komoditi') ? 'active' : '' }}">
@@ -119,6 +116,12 @@
                      <a href="{{ url('admin/tanaman/bawang-merah/bio') }}"
                          class="{{ request()->is('admin/tanaman/bawang-merah/bio') ? 'active' : '' }}">
                          <i class="bi bi-circle"></i><span>Bio Informasi Hama dan Penyakit</span>
+                     </a>
+                 </li>
+                 <li>
+                     <a href="{{ url('admin/tanaman/bawang-merah/gap') }}"
+                         class="{{ request()->is('admin/tanaman/bawang-merah/gap') ? 'active' : '' }}">
+                         <i class="bi bi-circle"></i><span>Good Agricultural Practice</span>
                      </a>
                  </li>
              </ul>
