@@ -346,27 +346,32 @@
 
 <script>
     document.querySelectorAll("svg path").forEach(path => {
-        path.addEventListener("click", function() {
-            let suhu = this.getAttribute("data-suhu") || "Tidak tersedia";
-            let kelembapan = this.getAttribute("data-kelembapan") || "Tidak tersedia";
-            let hujan = this.getAttribute("data-hujan") || "Tidak tersedia";
-            let hama = this.getAttribute("data-hama") || "Tidak tersedia";
-            let kecamatan = this.getAttribute("data-kecamatan") || "Tidak tersedia";
-
-            // Masukkan data ke dalam modal
-            document.getElementById("modalSuhu").innerText = suhu;
-            document.getElementById("modalKelembapan").innerText = kelembapan;
-            document.getElementById("modalHujan").innerText = hujan;
-            document.getElementById("modalHama").innerText = hama;
-            document.getElementById("modalKecamatan").innerText = kecamatan;
-
-            // Pastikan backdrop sebelumnya dihapus
-            document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
-
-            // Tampilkan modal Bootstrap
-            let myModalEl = document.getElementById("infoModal");
-            let myModal = new bootstrap.Modal(myModalEl);
-            myModal.show();
-        });
+        path.addEventListener("click", showModal);
+        path.addEventListener("touchstart", showModal); // Tambahkan event untuk mobile
     });
+
+    function showModal(event) {
+        event.preventDefault(); // Mencegah event ganda pada mobile
+
+        let suhu = this.getAttribute("data-suhu") || "Tidak tersedia";
+        let kelembapan = this.getAttribute("data-kelembapan") || "Tidak tersedia";
+        let hujan = this.getAttribute("data-hujan") || "Tidak tersedia";
+        let hama = this.getAttribute("data-hama") || "Tidak tersedia";
+        let kecamatan = this.getAttribute("data-kecamatan") || "Tidak tersedia";
+
+        document.getElementById("modalSuhu").innerText = suhu;
+        document.getElementById("modalKelembapan").innerText = kelembapan;
+        document.getElementById("modalHujan").innerText = hujan;
+        document.getElementById("modalHama").innerText = hama;
+        document.getElementById("modalKecamatan").innerText = kecamatan;
+
+        // Hapus backdrop sebelumnya
+        document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
+
+        // Paksa modal di-refresh
+        let myModalEl = document.getElementById("infoModal");
+        let myModal = new bootstrap.Modal(myModalEl);
+        myModalEl.style.display = "block"; // Pastikan modal terlihat
+        setTimeout(() => myModal.show(), 100); // Tambahkan delay untuk memastikan modal muncul
+    }
 </script>

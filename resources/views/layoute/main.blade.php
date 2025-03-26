@@ -53,6 +53,7 @@
         @yield('content')
 
     </main>
+    @include('layoute.bottom')
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -74,7 +75,7 @@
                 requestAnimationFrame(() => {
                     window.scrollTo(0, scrollPosition);
                     document.documentElement.style.visibility =
-                    "visible"; // Tampilkan kembali setelah scroll selesai
+                        "visible"; // Tampilkan kembali setelah scroll selesai
                 });
             }
 

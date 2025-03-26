@@ -32,7 +32,7 @@
         color: #519259;
     }
 </style>
-<nav class="navbar navbar-expand-lg bg-main" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-main d-none d-lg-block" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand text-main" href="#">Pedia</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -47,20 +47,17 @@
                 <li class="nav-item">
                     <a class="nav-link text-main {{ Request::is('blog') ? 'fw-bold ' : '' }}" href="/blog">Blog</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-main {{ Request::is('informasi') ? 'fw-bold' : '' }}"
                         href="/informasi">Informasi
                         Komoditas</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-main" href="#">GAP</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-main" href="#">Market Place</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-main" href="#">KAD</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-main" href="/login">Login</a>
                 </li>

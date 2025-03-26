@@ -1,62 +1,11 @@
 @extends('layoute.main')
 
 @section('content')
-    <style>
-        .card-container {
-            position: relative;
-            top: -80px;
-            /* Angka ini bisa disesuaikan untuk menyesuaikan posisi */
-            z-index: 10;
-        }
-
-        .card2 {
-            height: 100%;
-            /* Pastikan semua card memiliki tinggi penuh */
-            display: flex;
-            align-items: stretch;
-            /* Membuat tinggi card mengikuti isi terpanjang */
-        }
-
-
-
-        /* Pastikan semua card-body sejajar */
-        .cord-body2 {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            /* Jarak antara ikon dan teks */
-            height: 100%;
-        }
-
-        /* Khusus untuk card Market Place - Turunkan ikon dan teks */
-        .card-2:nth-child(4) i {
-            margin-top: 5px;
-            /* Turunkan ikon sedikit */
-        }
-
-        /* Pastikan semua teks memiliki tinggi yang sama */
-        .cord-body2 p {
-            min-height: 50px;
-            /* Sesuaikan tinggi teks agar sejajar */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Khusus untuk card Market Place - Turunkan teks agar sejajar */
-        .card-2:nth-child(4) p {
-            margin-top: 10px;
-            /* Sesuaikan angka ini jika masih kurang */
-        }
-    </style>
     @php
         $tanamanTerpilih = request('tanaman', 'cabai'); // Default 'cabai' jika tidak ada di URL
     @endphp
     <!-- Tambahkan CSS untuk Overlay -->
-    <section class="section  bg-main">
+    <section class="section  bg-main  rounded-bottom d-none d-lg-block">
         <div class="container">
             <div class="row row-cols-1 row-cols-lg-2 ">
                 <div class="col-lg-6" style="margin: 260px 0px;">
@@ -71,8 +20,8 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 text-end d-none d-lg-block" style="margin: 50px 0px">
-                    @include('peta')
+                <div class="col-lg-6 text-end " style="margin: 50px 0px">
+                    @include('homepeta')
                 </div>
             </div>
         </div>
@@ -80,160 +29,277 @@
 
 
 
-    <!-- Card dibuat "mengambang" di antara kedua section -->
-    <div class="container card-container">
-        <div class="row row-cols-1 row-cols-lg-4 g-3">
-            <div class="col text-center">
-                <div class="card card-2 rounded-4 shadow border border-0">
-                    <div class="card-body cord-body2">
-                        <p><i class="bi bi-info-circle text-sub fs-2"></i></p>
-                        <p class="text-sub fw-bold">Informasi <br> Penyebaran Hama</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col text-center">
-                <div class="card card-2 rounded-4 shadow border border-0">
-                    <div class="card-body cord-body2">
-                        <p><i class="bi bi-calendar2-week text-sub fs-2"></i></p>
-                        <p class="text-sub fw-bold">Good <br> Agricultural Practice</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col text-center">
-                <div class="card card-2 rounded-4 shadow border border-0">
-                    <div class="card-body cord-body2">
-                        <p><i class="bi bi-card-checklist text-sub fs-2"></i></p>
-                        <p class="text-sub fw-bold">Informasi <br> Komoditas Penting</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col text-center">
-                <div class="card card-2 rounded-4 shadow border border-0">
-                    <div class="card-body cord-body2">
-                        <p><i class="bi bi-shop text-sub fs-2"></i></p>
-                        <p class="text-sub fw-bold">Market Place</p>
-                    </div>
-                </div>
-            </div>
+    <div class="text-center">
+        <h2 class="fw-bold text-sub p-5">Brebes Plant Pest and Disease Mapping</h2>
+    </div>
+    <style>
+        .border-green {
+            border: 5px solid #519259 !important;
+        }
+
+        .background-green {
+            background-color: #EBFFFD !important;
+        }
+
+        /* Wrapper utama agar konten tetap di tengah */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Container untuk grid layout */
+        .custom-container-commodity {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(180px, 1fr));
+            gap: 30px;
+        }
+
+        /* Styling kartu komoditas */
+        .custom-card-commodity {
+            border-radius: 16px;
+            border: 5px solid green;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            text-align: center;
+            transition: 0.3s ease-in-out;
+            max-width: 300px;
+            height: 170px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Pastikan gambar berada di tengah */
+        .custom-card-commodity img {
+            max-width: 40%;
+            height: auto;
+            margin: auto;
+        }
+
+        /* Buat teks mentok di bawah */
+        .custom-card-commodity h3 {
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-top: auto;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        /* Hilangkan default radio button */
+        .custom-card-commodity input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Tambahkan shadow hanya ke card yang dipilih */
+        .custom-card-commodity:has(input:checked) {
+            box-shadow: 6px 6px 0px #4e807b;
+        }
+
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .custom-container-commodity {
+                grid-template-columns: repeat(2, minmax(160px, 1fr));
+            }
+
+            .custom-card-commodity {
+                max-width: 180px;
+            }
+
+            .custom-card-commodity h3 {
+                font-size: 0.9rem;
+            }
+
+            .custom-card-commodity img {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .custom-container-commodity {
+                grid-template-columns: repeat(3, minmax(140px, 1fr));
+            }
+
+            .custom-card-commodity {
+                max-width: 160px;
+                padding: 5px;
+                height: 110px;
+            }
+
+            .custom-card-commodity h3 {
+                font-size: 0.9rem;
+            }
+
+            .custom-card-commodity img {
+                max-width: 70%;
+            }
+        }
+    </style>
+
+    <div class="wrapper container">
+        <div class="custom-container-commodity">
+            <label class="custom-card-commodity">
+                <input type="radio" name="commodity" value="padi" checked>
+                <img src="/img/pngtree-rice-plant-illustration-png-image_6120558.png" alt="">
+                <h3 class="text-sub">Padi</h3>
+            </label>
+
+            <label class="custom-card-commodity">
+                <input type="radio" name="commodity" value="cabai">
+                <img src="/img/chilli-303865_1280.png" alt="">
+                <h3 class="text-sub">Cabai</h3>
+            </label>
+
+            <label class="custom-card-commodity">
+                <input type="radio" name="commodity" value="bawang-merah">
+                <img src="/img/pngtree-cartoon-onion-png-image_5880025.png" alt="">
+                <h3 class="text-sub">Bawang Merah</h3>
+            </label>
         </div>
     </div>
 
 
 
-    <div class="container mt-5 mb-5" id="prediksi">
 
 
-        <div class="text-center mt-3">
-
-            <ul class="nav  mb-3 nav-underline justify-content-center" id="pills-tab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a href="#" class="nav-link active text-sub fw-bold" id="pills-home-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Geografi
-                        hama dan
-                        penyakit</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a href="#" class="nav-link text-sub fw-bold" id="pills-profile-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-profile" role="tab" aria-controls="pills-profile"
-                        aria-selected="false">Bio Informasi Hama
-                        Dan Penyakit</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
-                    tabindex="0">
-                    <h2 class="mb-4 text-center">Perkiraan Penyebaran Hama Kabupaten Brebes dari
-                        {{ now()->subDays(14)->format('d F Y') }} s.d
-                        {{ now()->addDays(7)->format('d F Y') }}</h2>
+    <style>
+        /* Container untuk grid layout */
+        .custom-container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(200px, 1fr));
 
 
-                    <form id="tanamanForm" action="/">
-                        <select class="form-select" id="tanamanSelect" name="tanaman">
-                            <option value="cabai" {{ $tanamanTerpilih == 'cabai' ? 'selected' : '' }}>Cabai
-                            </option>
-                            <option value="Padi" {{ $tanamanTerpilih == 'Padi' ? 'selected' : '' }}>Padi</option>
-                            <option value="bawang merah" {{ $tanamanTerpilih == 'bawang merah' ? 'selected' : '' }}>
-                                Bawang Merah
-                            </option>
-                        </select>
-                    </form>
+        }
 
-                    <script>
-                        document.getElementById("tanamanSelect").addEventListener("change", function() {
-                            this.form.submit(); // Kirim form saat memilih tanaman
-                        });
-                    </script>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            @include('peta')
-                        </div>
-                        <div class="col-lg-4  d-flex align-items-center">
-                            <div class="card text-start w-100">
-                                <div class="card-body">
-                                    <h3 class="card-title">
-                                        Prediksi hama !
-                                    </h3>
-                                    @if ($tanamanTerpilih == 'cabai')
-                                        <ul class="p-0">
-                                            <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips
-                                                SPP
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Bemesia
-                                                Tabacci
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Lalat
-                                                Buah
-                                            </li>
-                                        </ul>
-                                    @elseif ($tanamanTerpilih == 'Padi')
-                                        <ul class="p-0">
-                                            <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Wereng
-                                                Batang
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i>
-                                                Penggerek
-                                                batang padi
-                                                Tabacci
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Padi
-                                                Cokelat
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill kuning-text"></i> Walang
-                                                sangit
-                                            </li>
-                                        </ul>
-                                    @else
-                                        <ul class="p-0">
-                                            <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips
-                                                tabacci
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Ulat
-                                                Bawang
-                                                Merah
+        /* Styling kartu */
+        .custom-card {
+            border-radius: 16px;
+            border: 5px solid green;
+            background-color: #e6f4ea;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            text-align: center;
+            transition: 0.3s ease-in-out;
+            max-width: 220px;
+        }
 
-                                            </li>
-                                            <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i>
-                                                Fusarium
-                                            </li>
-                                        </ul>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
-                    tabindex="0">
-                    @include('cuaca')
+        /* Gambar dalam kartu */
+        .custom-card img {
+            margin-bottom: 5px;
+            max-width: 25%;
+            height: auto;
+        }
 
-                </div>
-            </div>
+        /* Judul dalam kartu */
+        .custom-card h5 {
+            font-weight: bold;
+            margin: 0;
+            font-size: 0.9rem;
+        }
 
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .custom-container {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 100%;
+            }
+
+            .custom-card {
+                max-width: 200px;
+            }
+
+            .custom-card h5 {
+                font-size: 0.85rem;
+            }
+
+            .custom-card img {
+                max-width: 30%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .custom-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .custom-card {
+                max-width: 180px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .custom-card h5 {
+                font-size: 0.8rem;
+            }
+
+            .custom-card img {
+                max-width: 25%;
+            }
+        }
+    </style>
+
+    <div class="wrapper d-flex justify-content-center">
+        <div class="custom-container mt-4">
+            <a href="" class="custom-card text-decoration-none m-3" id="link-gap">
+                <img src="/img/icons8-approval-100.png" alt="">
+                <h5 class="text-sub fw-bold">Good Agricultural Practice</h5>
+            </a>
+            <a href="" class="custom-card text-decoration-none m-3" id="link-komoditi">
+                <img src="/img/icons8-futures-100.png" alt="">
+                <h5 class="text-sub fw-bold">Info Komoditi</h5>
+            </a>
+            <a href="" class="custom-card text-decoration-none m-3" id="link-pestisida">
+                <img src="/img/icons8-task-100.png" alt="">
+                <h5 class="text-sub fw-bold">Panduan Penggunaan Pestisida</h5>
+            </a>
+            <a href="" class="custom-card text-decoration-none m-3" id="link-sebaran">
+                <img src="/img/icons8-country-100.png" alt="">
+                <h5 class="text-sub fw-bold">Sebaran Hama dan Penyakit</h5>
+            </a>
+            <a href="" class="custom-card text-decoration-none m-3" id="link-bio">
+                <img src="/img/icons8-slug-eating-100.png" alt="">
+                <h5 class="text-sub fw-bold">Bio Informasi Hama dan Penyakit</h5>
+            </a>
+            <a href="" class="custom-card text-decoration-none m-3" id="link-iklim">
+                <img src="/img/icons8-nature-100.png" alt="">
+                <h5 class="text-sub fw-bold">Kondisi Iklim</h5>
+            </a>
         </div>
     </div>
-    </div>
 
-    <div class="bg-main">
+    <!-- Include jQuery jika belum ada -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const links = {
+                "link-gap": "/gap/",
+                "link-komoditi": "/info-komoditi/",
+                "link-pestisida": "/panduan-pestisida/",
+                "link-sebaran": "/sebaran-hama/",
+                "link-bio": "/bio-hama/",
+                "link-iklim": "/kondisi-iklim/"
+            };
+
+            function updateLinks() {
+                let selectedCommodity = $('input[name="commodity"]:checked').val();
+                $.each(links, function(id, baseHref) {
+                    $("#" + id).attr("href", baseHref + selectedCommodity);
+                });
+            }
+
+            $('input[name="commodity"]').change(updateLinks);
+            updateLinks(); // Set href saat halaman pertama kali dimuat
+        });
+    </script>
+
+    <div class="bg-main mt-5">
         <div class="container">
             <div class="row row-cols-1 row-cols-lg-2 align-items-center text-center text-lg-start">
                 <div class="col-lg-8 mb-4 text-center">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Log;
+use App\Models\Bio;
+use App\Models\Tanaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -102,8 +104,15 @@ class CuacaController extends Controller
 
         // dd('selesai');
 
+        $tanamanList = ['padi', 'cabai', 'bawang-merah'];
+
+        foreach ($tanamanList as $tanaman) {
+            Tanaman::firstOrCreate(['nm_tanaman' => $tanaman]);
+        }
+
         $dataCuaca = dataCuaca(true)['weatherData'];
-        return view('index', compact('dataCuaca'));
+        $bios = Bio::get();
+        return view('index', compact('dataCuaca', 'bios'));
     }
 
     public function resitensi()
