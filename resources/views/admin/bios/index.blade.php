@@ -18,7 +18,7 @@
                                 <th>Order</th>
                                 <th>Suborder</th>
                                 <th>Families</th>
-                                <th>Genius</th>
+                                <th>Genus</th>
                                 <th>Species</th>
                                 <th>Aksi</th>
                             </tr>
@@ -31,7 +31,7 @@
                                     <td>{{ $bio->order }}</td>
                                     <td>{{ $bio->suborder }}</td>
                                     <td>{{ $bio->families }}</td>
-                                    <td>{{ $bio->genius }}</td>
+                                    <td>{{ $bio->genus }}</td>
                                     <td>{{ $bio->species }}</td>
                                     <td>
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal"

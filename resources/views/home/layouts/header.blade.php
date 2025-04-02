@@ -32,7 +32,7 @@
         color: #519259;
     }
 </style>
-<nav class="navbar navbar-expand-lg bg-main d-none d-lg-block" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-main fixed-top d-none d-lg-block" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand text-main" href="/">Pedia</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -72,10 +72,29 @@
 
         </div>
     </div>
+
 </nav>
 
-<nav class="navbar bg-success  d-block d-lg-none ">
+<nav class="navbar d-block d-lg-none bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold text-white" href="#">Pedia</a>
+        <!-- Tombol Kembali dan Teks Dinamis -->
+        <a class="navbar-brand d-flex align-items-center" href="javascript:history.back();">
+            <i class="bi bi-arrow-left text-white"></i>
+            <span class="text-white ms-2" style="font-size: 15px;">
+                @if (Request::is('gap/' . $tanaman->nm_tanaman))
+                    Good Agricultural Practice
+                @elseif (Request::is('info-komoditi/' . $tanaman->nm_tanaman))
+                    Info Komoditi
+                @elseif (Request::is('panduan-pestisida/' . $tanaman->nm_tanaman))
+                    Panduan Penggunaan Pestisida
+                @elseif (Request::is('sebaran-hama/' . $tanaman->nm_tanaman))
+                    Sebaran Hama dan Penyakit
+                @elseif (Request::is('bio-hama/' . $tanaman->nm_tanaman))
+                    Bio Informasi Hama dan Penyakit
+                @elseif (Request::is('kondisi-iklim/' . $tanaman->nm_tanaman))
+                    Kondisi Iklim
+                @endif
+            </span>
+        </a>
     </div>
 </nav>

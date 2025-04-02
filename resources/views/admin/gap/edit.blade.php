@@ -38,8 +38,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="keterangan" class="form-label">Keterangan</label>
-                        <textarea class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan"
-                            rows="3">{{ old('keterangan', $gap->keterangan) }}</textarea>
+                        <input id="keterangan" type="hidden" name="keterangan"
+                            class="@error('keterangan') is-invalid @enderror"
+                            value="{{ old('keterangan', $gap->keterangan) }}">
+                        <trix-editor input="keterangan"></trix-editor>
                         @error('keterangan')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

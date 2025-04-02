@@ -86,7 +86,7 @@ if (!function_exists('dataCuaca')) {
                         'color' => "oren-color"
                     ],
                 ],
-                'Padi' => [
+                'padi' => [
                     'Wereng Batang' => [
                         'suhu' => ['min' => 15, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 60, 'max' => 90, 'opt_min' => 60, 'opt_max' => 90],
@@ -112,7 +112,7 @@ if (!function_exists('dataCuaca')) {
                         'color' => "kuning-color"
                     ],
                 ],
-                'bawang merah' => [
+                'bawang-merah' => [
                     'Thrips tabacci' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],

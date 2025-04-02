@@ -16,7 +16,7 @@ class PanduanController extends Controller
      */
     public function index(Tanaman $tanaman)
     {
-        $panduans = Panduan::with('insektisida')->get();
+        $panduans = $tanaman->panduan;
 
         $panduans->each(function ($panduan) {
             if ($panduan->insektisida) {

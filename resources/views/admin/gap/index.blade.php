@@ -15,7 +15,7 @@
                             <tr>
                                 <th>Gambar</th>
                                 <th>Usia</th>
-                                <th>Kegiatan</th>
+
                                 <th>Keterangan</th>
                                 <th>Aksi</th>
                             </tr>
@@ -26,7 +26,7 @@
                                     <td><img src="{{ asset($gap->gambar) }}" class="img-fluid" width="100"></td>
                                     <td>{{ $gap->usia }}</td>
                                     <td>{{ $gap->kegiatan }}</td>
-                                    <td>{{ $gap->keterangan }}</td>
+
                                     <td>
                                         <button class="btn btn-info btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#modalKeterangan{{ $gap->id }}">

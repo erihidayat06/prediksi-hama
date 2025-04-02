@@ -31,6 +31,14 @@ class Tanaman extends Model
     {
         return $this->hasMany(Gap::class);
     }
+    public function komoditi()
+    {
+        return $this->hasMany(Komoditi::class);
+    }
+    public function panduan()
+    {
+        return $this->hasMany(Panduan::class);
+    }
 
     use HasFactory;
 }

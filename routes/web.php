@@ -9,6 +9,12 @@ use App\Http\Controllers\Admin\PanduanController;
 use App\Http\Controllers\Admin\TanamanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CuacaController;
+use App\Http\Controllers\Home\BioHamaController;
+use App\Http\Controllers\Home\GapController as HomeGapController;
+use App\Http\Controllers\Home\KomoditiController;
+use App\Http\Controllers\Home\KondisiIklimController;
+use App\Http\Controllers\Home\PanduanController as HomePanduanController;
+use App\Http\Controllers\Home\PetaController;
 use App\Http\Controllers\MarketController;
 
 /*
@@ -56,8 +62,31 @@ Route::put('/admin/tanaman/{tanaman:nm_tanaman}/panduan/{gap:id}', [PanduanContr
 Route::delete('/admin/tanaman/panduan/{gap:id}', [PanduanController::class, 'destroy'])->name('panduan.destroy');
 
 // Golongan
-
 Route::resource('/admin/golongan', GolonganController::class);
 Route::resource('/admin/insektisida', InsektisidaController::class);
+
+
+// Home
+
+//GAP
+Route::get('/gap/{tanaman:nm_tanaman}', [HomeGapController::class, 'index']);
+
+// Komoditi
+Route::get('/info-komoditi/{tanaman:nm_tanaman}', [KomoditiController::class, 'index']);
+
+// Panduan pestisida
+Route::get('/panduan-pestisida/{tanaman:nm_tanaman}', [HomePanduanController::class, 'index']);
+
+// Komoditi
+Route::get('/komoditi', [KomoditiController::class, 'data']);
+
+// Bio Informasi
+Route::get('/bio-hama/{tanaman:nm_tanaman}', [BioHamaController::class, 'index']);
+
+// Sebaran
+Route::get('/sebaran-hama/{tanaman:nm_tanaman}', [PetaController::class, 'index']);
+
+// Kondisi Iklim
+Route::get('/kondisi-iklim/{tanaman:nm_tanaman}', [KondisiIklimController::class, 'index']);
 
 Route::get('/marketplace', [MarketController::class, 'showProducts'])->name('products.index');

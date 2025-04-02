@@ -121,11 +121,11 @@
 
         @media (max-width: 576px) {
             .custom-container-commodity {
-                grid-template-columns: repeat(3, minmax(140px, 1fr));
+                grid-template-columns: repeat(3, minmax(100px, 1fr));
             }
 
             .custom-card-commodity {
-                max-width: 160px;
+                max-width: 130px;
                 padding: 5px;
                 height: 110px;
             }
@@ -140,25 +140,27 @@
         }
     </style>
 
-    <div class="wrapper container">
-        <div class="custom-container-commodity">
-            <label class="custom-card-commodity">
-                <input type="radio" name="commodity" value="padi" checked>
-                <img src="/img/pngtree-rice-plant-illustration-png-image_6120558.png" alt="">
-                <h3 class="text-sub">Padi</h3>
-            </label>
+    <div class="container">
+        <div class="wrapper">
+            <div class="custom-container-commodity">
+                <label class="custom-card-commodity">
+                    <input type="radio" name="commodity" value="padi" checked>
+                    <img src="/img/pngtree-rice-plant-illustration-png-image_6120558.png" alt="">
+                    <h3 class="text-sub">Padi</h3>
+                </label>
 
-            <label class="custom-card-commodity">
-                <input type="radio" name="commodity" value="cabai">
-                <img src="/img/chilli-303865_1280.png" alt="">
-                <h3 class="text-sub">Cabai</h3>
-            </label>
+                <label class="custom-card-commodity">
+                    <input type="radio" name="commodity" value="cabai">
+                    <img src="/img/chilli-303865_1280.png" alt="">
+                    <h3 class="text-sub">Cabai</h3>
+                </label>
 
-            <label class="custom-card-commodity">
-                <input type="radio" name="commodity" value="bawang-merah">
-                <img src="/img/pngtree-cartoon-onion-png-image_5880025.png" alt="">
-                <h3 class="text-sub">Bawang Merah</h3>
-            </label>
+                <label class="custom-card-commodity">
+                    <input type="radio" name="commodity" value="bawang-merah">
+                    <img src="/img/pngtree-cartoon-onion-png-image_5880025.png" alt="">
+                    <h3 class="text-sub">Bawang Merah</h3>
+                </label>
+            </div>
         </div>
     </div>
 
@@ -244,6 +246,7 @@
             }
         }
     </style>
+
 
     <div class="wrapper d-flex justify-content-center">
         <div class="custom-container mt-4">

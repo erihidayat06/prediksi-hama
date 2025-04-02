@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('fetch:harga-pangan')->dailyAt('00:10'); // Jalankan setiap hari jam 00:10
         $schedule->command('weather:update')->dailyAt('00:10'); // Ambil data setiap hari jam 00:10
     }
 
