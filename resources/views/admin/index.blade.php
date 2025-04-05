@@ -1,5 +1,5 @@
 @extends('admin.layouts.main')
 
 @section('content')
-    Selamat satang
+    Selamat datang
 @endsection
