@@ -103,7 +103,7 @@
         /* RESPONSIVE */
         @media (max-width: 992px) {
             .custom-container-commodity {
-                grid-template-columns: repeat(2, minmax(160px, 1fr));
+                grid-template-columns: repeat(3, minmax(160px, 1fr));
             }
 
             .custom-card-commodity {
@@ -121,7 +121,7 @@
 
         @media (max-width: 576px) {
             .custom-container-commodity {
-                grid-template-columns: repeat(3, minmax(100px, 1fr));
+                grid-template-columns: repeat(3, minmax(90px, 0.5fr));
             }
 
             .custom-card-commodity {
@@ -325,54 +325,37 @@
     <section>
         <div class="container">
 
-            <h2 class="mt-3 fw-bold text-sub">Berita Terkini</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
+            <h3 class="mt-3 fw-bold text-sub">Berita Terkini</h3>
+
+            @if ($blogs->count() > 0)
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+                    @foreach ($blogs as $blog)
+                        <div class="col">
+                            <a href="{{ route('blog.show.home', $blog->slug) }}" class="text-decoration-none">
+                                <div class="card">
+                                    <img src="{{ asset($blog->gambar) }}" class="card-img-top" alt="{{ $blog->judul }}">
+                                    <div class="card-body">
+                                        <p class="card-title fw-bold text-capitalize">
+                                            {{ Str::limit($blog->judul, 30, '...') }}
+                                        </p>
+                                        <p class="text-secondary" style="font-size: 14px">
+                                            {{ $blog->created_at->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                                additional content.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @else
+                <p class="text-muted text-center mt-3">Tidak ada berita terkini.</p>
+            @endif
+
         </div>
     </section>
 
 
-    <footer class="bg-main mt-5 text-center text-main">
+    {{-- <footer class="bg-main mt-5 text-center text-main">
         &copy; 2025
-    </footer>
+    </footer> --}}
 @endsection

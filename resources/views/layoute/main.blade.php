@@ -11,6 +11,8 @@
     {{-- icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+
+
     <style>
         #loading-overlay {
             position: fixed;
@@ -34,6 +36,33 @@
             animation: spin 1s linear infinite;
         }
 
+        .main {
+            margin-top: 0px;
+            margin-bottom: 100px;
+        }
+
+        @media (max-width: 576px) {
+            .main {
+                margin-top: 0px;
+                margin-bottom: 100px;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            p {
+                font-size: 12px;
+            }
+
+            .keterangan {
+                font-size: 14px;
+            }
+
+            h5 {
+                font-size: 16px;
+            }
+        }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -53,7 +82,9 @@
         @yield('content')
 
     </main>
+    @include('layoute.footer')
     @include('layoute.bottom')
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

@@ -34,7 +34,8 @@
 </style>
 <nav class="navbar navbar-expand-lg bg-main fixed-top d-none d-lg-block" data-bs-theme="dark">
     <div class="container">
-        <a class="navbar-brand text-main" href="/">Pedia</a>
+        <a class="navbar-brand text-main" href="/"><img src="/img/logo-pedia-main.png" alt=""
+                width="80px"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -47,23 +48,42 @@
                 <li class="nav-item">
                     <a class="nav-link text-main {{ Request::is('blog') ? 'fw-bold ' : '' }}" href="/blog">Blog</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-main {{ Request::is('informasi') ? 'fw-bold' : '' }}"
-                        href="/informasi">Informasi
-                        Komoditas</a>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link text-main" href="#">Market Place</a>
                 </li>
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-main" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ auth()->user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/">Profile</a></li> {{-- You can add profile link --}}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link text-main" href="{{ route('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-main mt-1 ms-2" href="{{ route('register') }}">Sign up</a>
+                    </li>
+                @endauth
 
-                <li class="nav-item">
-                    <a class="nav-link text-main" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-sm btn-main mt-1 ms-3 align-items-center" href="/register">Sign up</a>
-                </li>
+
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ Request::is('resistensi') ? 'active' : '' }}"
                         href="/resistensi">Resistensi</a>
@@ -75,7 +95,7 @@
 
 </nav>
 
-<nav class="navbar d-block d-lg-none bg-success">
+<nav class="navbar d-block d-lg-none fixed-top bg-main">
     <div class="container-fluid">
         <!-- Tombol Kembali dan Teks Dinamis -->
         <a class="navbar-brand d-flex align-items-center" href="javascript:history.back();">

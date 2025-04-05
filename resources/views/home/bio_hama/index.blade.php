@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-4 mb-5">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 g-4">
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 g-4">
             @foreach ($dataHama as $hama)
                 <div class="col">
                     <div class="card shadow-sm border-0 rounded overflow-hidden h-100">

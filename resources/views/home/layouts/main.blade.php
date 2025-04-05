@@ -40,10 +40,24 @@
 
         @media (max-width: 576px) {
             .main {
-                margin-top: 0px;
+                margin-top: 50px;
                 margin-bottom: 100px;
             }
+
+            p {
+                font-size: 12px;
+            }
+
+            .keterangan {
+                font-size: 14px;
+            }
+
+            h5 {
+                font-size: 16px;
+            }
         }
+
+
 
         @keyframes spin {
             0% {
@@ -65,7 +79,7 @@
         @yield('content')
 
     </main>
-    @include('home.layouts.bottom')
+    @include('layoute.bottom')
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

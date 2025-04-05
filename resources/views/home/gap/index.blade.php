@@ -7,9 +7,7 @@
             color: #ffffff !important;
         }
 
-        .nav-link:hover {
-            background-color: #f1f8f4;
-        }
+
 
         .nav-sticky {
             position: sticky;
@@ -102,7 +100,7 @@
                                             alt="">
                                         <h2 class="fw-bold"> {{ $gap->kegiatan }}</h2>
                                         <p class="text-secondary-emphasis"> Usia: {{ $gap->usia }}</p>
-                                        <div class="text-dark"> {!! $gap->keterangan !!}</div>
+                                        <div class="text-dark keterangan"> {!! $gap->keterangan !!}</div>
                                     </div>
                                 </div>
                             </div>

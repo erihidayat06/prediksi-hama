@@ -142,6 +142,14 @@
              </a>
          </li>
 
+         <li class="nav-heading">Management Blog</li>
+         <li class="nav-item">
+             <a class="nav-link {{ Request::is('admin/blog*') ? '' : 'collapsed' }}" href="/admin/blog">
+                 <i class="bi bi-newspaper"></i>
+                 <span class="ms-2">Blog</span>
+             </a>
+         </li>
+
 
          {{-- <li class="nav-item">
              <a class="nav-link {{ Request::is('admin/tanaman/padi*') ? '' : 'collapsed' }}" href="/admin/tanaman/padi">

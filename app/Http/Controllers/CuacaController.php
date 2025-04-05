@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Log;
 use App\Models\Bio;
+use App\Models\Blog;
+use App\Models\User;
 use App\Models\Tanaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Mail\PerubahanCuacaMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 
 class CuacaController extends Controller
@@ -17,8 +21,9 @@ class CuacaController extends Controller
     {
 
         $dataCuaca = dataCuaca()['weatherData'];
+        $blogs = Blog::latest()->get();
 
-        return view('cuaca', compact('dataCuaca'));
+        return view('cuaca', compact('dataCuaca', 'blogs'));
     }
 
 
@@ -104,16 +109,65 @@ class CuacaController extends Controller
 
         // dd('selesai');
 
+
         $tanamanList = ['padi', 'cabai', 'bawang-merah'];
 
         foreach ($tanamanList as $tanaman) {
             Tanaman::firstOrCreate(['nm_tanaman' => $tanaman]);
         }
+        $blogs = Blog::latest()->paginate(5);
 
         $dataCuaca = dataCuaca(true)['weatherData'];
         $bios = Bio::get();
-        return view('index', compact('dataCuaca', 'bios'));
+        return view('index', compact('dataCuaca', 'bios', 'blogs'));
     }
+
+    public function bandingkanDataCuaca()
+    {
+        $dataCuaca = dataCuaca(true)['weatherData'];
+        $dataCuacaSebelum = dataCuacaSebelum(true)['weatherData'];
+        $perubahanHama = [];
+
+        foreach ($dataCuaca as $index => $cuaca) {
+            $kecamatan = $cuaca['kecamatan'];
+
+            // Cari data cuaca sebelumnya berdasarkan kecamatan
+            $cuacaSebelum = array_filter($dataCuacaSebelum, function ($item) use ($kecamatan) {
+                return $item['kecamatan'] === $kecamatan;
+            });
+
+            if (!empty($cuacaSebelum)) {
+                $cuacaSebelum = reset($cuacaSebelum);
+                $hamaCuaca = $cuaca['rata_rata']['hama'];
+                $hamaCuacaSebelum = $cuacaSebelum['rata_rata']['hama'];
+
+                $perubahan = [];
+
+                // Cek perubahan Hama cabai
+                if ($hamaCuaca['cabai'] !== $hamaCuacaSebelum['cabai']) {
+                    $perubahan['cabai'] = "Hama cabai berubah dari {$hamaCuacaSebelum['cabai']} ke {$hamaCuaca['cabai']}";
+                }
+
+                // Cek perubahan Hama padi
+                if ($hamaCuaca['padi'] !== $hamaCuacaSebelum['padi']) {
+                    $perubahan['padi'] = "Hama padi berubah dari {$hamaCuacaSebelum['padi']} ke {$hamaCuaca['padi']}";
+                }
+
+                // Cek perubahan Hama bawang merah
+                if ($hamaCuaca['bawang-merah'] !== $hamaCuacaSebelum['bawang-merah']) {
+                    $perubahan['bawang-merah'] = "Hama bawang merah berubah dari {$hamaCuacaSebelum['bawang-merah']} ke {$hamaCuaca['bawang-merah']}";
+                }
+
+                // Simpan hanya jika ada perubahan
+                if (!empty($perubahan)) {
+                    $perubahanHama[$kecamatan] = $perubahan;
+                }
+            }
+        }
+
+        return $perubahanHama; // Hanya mengembalikan data yang berubah
+    }
+
 
     public function resitensi()
     {

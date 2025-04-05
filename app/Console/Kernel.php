@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('fetch:harga-pangan')->dailyAt('00:10'); // Jalankan setiap hari jam 00:10
         $schedule->command('weather:update')->dailyAt('00:10'); // Ambil data setiap hari jam 00:10
+        $schedule->command('cuaca:kirim-peringatan')->twiceMonthly(1, 15, '00:00'); // Tanggal 1 dan 15 setiap bulan
     }
 
     /**

@@ -1,6 +1,6 @@
-<nav class="navbar navbar-dark bg-success fixed-bottom  d-block d-lg-none">
+<nav class="navbar navbar-dark bg-main fixed-bottom  d-block d-lg-none">
     <div class="container-fluid d-flex justify-content-around">
-        <a href="#" class="text-light text-center">
+        <a href="/" class="text-light text-center">
             <i class="bi bi-house-door"></i><br>Home
         </a>
         <a href="#" class="text-light text-center">
