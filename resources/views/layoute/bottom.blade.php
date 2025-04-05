@@ -6,8 +6,10 @@
         <a href="/marketplace" class="text-light text-center">
             <i class="bi bi-search"></i><br>Search
         </a>
-        @if (auth()->user()->is_admin)
-            <a class="text-light text-center" href="/admin">Admin</a>
-        @endif
+        @auth
+            @if (auth()->user()->is_admin)
+                <a class="text-light text-center" href="/admin">Admin</a>
+            @endif
+        @endauth
     </div>
 </nav>
