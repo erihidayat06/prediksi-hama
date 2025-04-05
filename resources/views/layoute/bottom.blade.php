@@ -3,11 +3,11 @@
         <a href="/" class="text-light text-center">
             <i class="bi bi-house-door"></i><br>Home
         </a>
-        <a href="#" class="text-light text-center">
+        <a href="/marketplace" class="text-light text-center">
             <i class="bi bi-search"></i><br>Search
         </a>
-        <a href="#" class="text-light text-center">
-            <i class="bi bi-person"></i><br>Profile
-        </a>
+        @if (auth()->user()->is_admin)
+            <a class="text-light text-center" href="/admin">Admin</a>
+        @endif
     </div>
 </nav>

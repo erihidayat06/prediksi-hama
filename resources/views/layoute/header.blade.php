@@ -78,7 +78,11 @@
                             {{ auth()->user()->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/">Profile</a></li> {{-- You can add profile link --}}
+                            @if (auth()->user()->is_admin)
+                                <li>
+                                    <a class="dropdown-item" href="/admin">Admin</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="dropdown-item" href="/marketplace/produk-saya">
                                     Produk
