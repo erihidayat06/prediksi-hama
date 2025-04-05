@@ -33,7 +33,7 @@ class GolonganController extends Controller
         // Validasi input
         $request->validate([
             'nm_golongan' => 'required|string|max:255',
-            'bahan' => 'required|string|max:255',
+            'bahan' => 'required|string',
         ], [
             'nm_golongan.required' => 'Nama golongan wajib diisi.',
             'nm_golongan.string' => 'Nama golongan harus berupa teks.',
