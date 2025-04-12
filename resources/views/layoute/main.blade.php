@@ -96,27 +96,6 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if ('scrollRestoration' in history) {
-                history.scrollRestoration = 'manual';
-            }
-
-            let scrollPosition = sessionStorage.getItem("scrollPosition");
-            if (scrollPosition !== null) {
-                document.documentElement.style.visibility = "hidden"; // Sembunyikan halaman sementara
-                requestAnimationFrame(() => {
-                    window.scrollTo(0, scrollPosition);
-                    document.documentElement.style.visibility =
-                        "visible"; // Tampilkan kembali setelah scroll selesai
-                });
-            }
-
-            window.addEventListener("beforeunload", function() {
-                sessionStorage.setItem("scrollPosition", window.scrollY);
-            });
-        });
-    </script>
 
 
 
