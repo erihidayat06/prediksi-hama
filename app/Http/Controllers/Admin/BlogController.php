@@ -38,7 +38,7 @@ class BlogController extends Controller
             'isi' => 'required|string',
         ]);
 
-        $gambar = $request->file('gambar')->store('public/blog');
+        $gambar = $request->file('gambar')->store('hama_images', 'public');
         $gambarUrl = Storage::url($gambar);
         $slug = Str::slug($request->judul) . '-' . now()->format('His');
 
@@ -84,7 +84,7 @@ class BlogController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama jika ada
             if ($blog->gambar) {
-                $imagePath = str_replace('/storage/', 'public/', $blog->gambar); // Menyesuaikan path gambar
+                $imagePath = str_replace('/storage/', '', $blog->gambar); // Menyesuaikan path gambar
                 Storage::delete($imagePath);
             }
 
@@ -111,7 +111,7 @@ class BlogController extends Controller
     {
         // Mengecek apakah ada gambar yang ter-upload dan menghapusnya
         if ($blog->gambar) {
-            $imagePath = str_replace('/storage/', 'public/', $blog->gambar); // Menyesuaikan path gambar
+            $imagePath = str_replace('/storage/', '', $blog->gambar); // Menyesuaikan path gambar
             Storage::delete($imagePath);
         }
 
