@@ -45,7 +45,7 @@
 
         @media (max-width: 576px) {
             .main {
-                margin-top: 0px;
+                margin-top: 100px !important;
                 margin-bottom: 100px;
             }
         }
