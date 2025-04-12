@@ -8,6 +8,7 @@
                 <table class="table table-sm datatable border border-success-subtle">
                     <thead class="table-success">
                         <tr>
+                            <th>Gambar</th>
                             <th>Hama</th>
                             <th>Insektisida Resisten</th>
                             <th>Insektisida Cross Resisten</th>
@@ -17,11 +18,16 @@
                     <tbody>
                         @foreach ($panduans as $panduan)
                             <tr>
+                                <td>
+                                    <img src="{{ asset($panduan->bio->gambar) }}" class="img-fluid" width="100"
+                                        alt="Gambar Hama">
+                                </td>
                                 <td>{{ $panduan->bio->nm_hama }}</td>
                                 <td>{{ $panduan->insektisida->nm_insektisida ?? '-' }}</td>
                                 <td>
                                     @foreach ($panduan->insektisida->cross_resistens_names ?? [] as $index => $name)
-                                        <a href="#" class="btn btn-link text-decoration-none p-0" data-bs-toggle="modal"
+                                        <a href="#" class="btn btn-link text-decoration-none p-0"
+                                            data-bs-toggle="modal"
                                             data-bs-target="#modalDetail-{{ $panduan->id }}-{{ $index }}">
                                             {{ $name }}
                                         </a>
