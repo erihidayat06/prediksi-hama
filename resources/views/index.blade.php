@@ -29,7 +29,7 @@
 
 
 
-    <div class="text-center">
+    <div class="text-center mt-5">
         <h2 class="fw-bold text-sub p-5">Brebes Plant Pest and Disease Mapping</h2>
     </div>
     <style>

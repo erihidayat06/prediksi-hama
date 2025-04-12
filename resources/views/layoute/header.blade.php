@@ -125,8 +125,9 @@
     </div>
 </nav>
 
-<nav class="navbar bg-main  d-block d-lg-none ">
+<nav class="navbar bg-main  d-block d-lg-none fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold text-white" href="#">Pedia</a>
+        <a class="navbar-brand fw-bold text-white" href="#"> <img src="/img/logo-pedia-main.png" alt=""
+                width="80px"></a>
     </div>
 </nav>

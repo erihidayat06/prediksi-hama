@@ -1,4 +1,4 @@
-<footer class="bg-main text-light pt-5">
+<footer class="bg-main text-light pt-5 d-none d-block">
     <div class="container">
         <!-- Middle Section -->
         <div class="row text-start py-4">
