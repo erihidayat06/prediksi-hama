@@ -14,7 +14,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Nama Golongan</th>
-                                <th>Bahan Aktive</th>
+                                <th>Bahan Aktif</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

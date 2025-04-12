@@ -11,7 +11,7 @@
                 <form action="{{ route('insektisida.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="nm_insektisida" class="form-label">Nama Bahan aktive</label>
+                        <label for="nm_insektisida" class="form-label">Nama Bahan Aktif</label>
                         <input type="text" class="form-control @error('nm_insektisida') is-invalid @enderror"
                             id="nm_insektisida" name="nm_insektisida" value="{{ old('nm_insektisida') }}">
                         @error('nm_insektisida')

@@ -14,7 +14,7 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label for="nm_insektisida" class="form-label">Nama Bahan aktif</label>
+                        <label for="nm_insektisida" class="form-label">Nama Bahan Aktive</label>
                         <input type="text" class="form-control @error('nm_insektisida') is-invalid @enderror"
                             id="nm_insektisida" name="nm_insektisida"
                             value="{{ old('nm_insektisida', $insektisida->nm_insektisida) }}">
