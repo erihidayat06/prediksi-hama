@@ -14,7 +14,7 @@
         <a href="/marketplace" class="text-light text-decoration-none text-center">
             <i class="bi bi-shop"></i><br>Marketplace
         </a>
-        <a href="/marketplace" class="text-light text-decoration-none text-center">
+        <a href="/blog" class="text-light text-decoration-none text-center">
             <i class="bi bi-newspaper"></i><br>Blog
         </a>
         @auth
