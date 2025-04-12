@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h5 class="fw-bold">Good Agricultural Practice</h5>
+                    <h5 class="fw-bold">Data bahan Insektisida </h5>
                 </div>
                 <a href="{{ route('insektisida.create') }}" class="btn btn-primary mb-3">Tambah Kegiatan</a>
                 <div class="table-responsive">

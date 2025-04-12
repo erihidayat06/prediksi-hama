@@ -6,12 +6,12 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h5 class="fw-bold">Tambah Data Golongan</h5>
+                    <h5 class="fw-bold">Tambah Data Instisida</h5>
                 </div>
                 <form action="{{ route('insektisida.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="nm_insektisida" class="form-label">Nama Golongan</label>
+                        <label for="nm_insektisida" class="form-label">Nama Instisida</label>
                         <input type="text" class="form-control @error('nm_insektisida') is-invalid @enderror"
                             id="nm_insektisida" name="nm_insektisida" value="{{ old('nm_insektisida') }}">
                         @error('nm_insektisida')

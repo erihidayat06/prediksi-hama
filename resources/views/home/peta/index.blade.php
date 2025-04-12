@@ -18,23 +18,20 @@
                         </h3>
                         @if ($tanamanTerpilih == 'cabai')
                             <ul class="p-0">
-                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips SPP
+                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips spp
                                 </li>
-                                <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Bemesia
-                                    Tabacci
+                                <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Kutu kebul
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Lalat Buah
                                 </li>
                             </ul>
-                        @elseif ($tanamanTerpilih == 'Padi')
+                        @elseif ($tanamanTerpilih == 'padi')
                             <ul class="p-0">
-                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Wereng Batang
+                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Wereng
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Penggerek
                                     batang padi
-                                    Tabacci
-                                </li>
-                                <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Padi Cokelat
+
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill kuning-text"></i> Walang
                                     sangit
@@ -42,14 +39,13 @@
                             </ul>
                         @else
                             <ul class="p-0">
-                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips
+                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips spp
                                     tabacci
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Ulat Bawang
                                     Merah
-                                    Tabacci
                                 </li>
-                                <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Fusarium
+                                <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Moler
                                 </li>
                             </ul>
                         @endif
