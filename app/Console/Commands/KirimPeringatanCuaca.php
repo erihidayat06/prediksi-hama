@@ -2,14 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Http\Controllers\CuacaController;
 use Illuminate\Console\Command;
 use App\Mail\PerubahanCuacaMail;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\CuacaController;
+use App\Models\User;
 use App\Http\Controllers\Home\PetaController;
 
 class KirimPeringatanCuaca extends Command
@@ -24,6 +21,7 @@ class KirimPeringatanCuaca extends Command
 
     public function handle()
     {
+        // Panggil metode dari controller yang membandingkan data
         $controller = new CuacaController();
         $perbandinganWarna = $controller->bandingkanDataCuaca();
 
@@ -31,27 +29,7 @@ class KirimPeringatanCuaca extends Command
             $users = User::pluck('email')->toArray();
 
             foreach ($users as $email) {
-                $mail = new PHPMailer(true);
-
-                try {
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'erihidayat549@gmail.com';
-                    $mail->Password = 'ozrhqbajqfzccljc'; // App password Gmail
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                    $mail->Port = 587;
-
-                    $mail->setFrom('erihidayat549@gmail.com', 'Prediksi Hama');
-                    $mail->addAddress($email);
-                    $mail->isHTML(true);
-                    $mail->Subject = 'Peringatan Perubahan Cuaca';
-                    $mail->Body    = view('emails.perubahan_cuaca', ['data' => $perbandinganWarna])->render();
-
-                    $mail->send();
-                } catch (Exception $e) {
-                    Log::error("Gagal mengirim email ke {$email}. Error: {$mail->ErrorInfo}");
-                }
+                Mail::to($email)->send(new PerubahanCuacaMail($perbandinganWarna));
             }
 
             $this->info('Email peringatan cuaca berhasil dikirim ke semua pengguna.');
