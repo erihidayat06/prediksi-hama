@@ -80,6 +80,11 @@ Route::middleware(['auth', 'is_admin'])->group(
 Route::get('/', [CuacaController::class, 'home'])->name('cuaca')->middleware('weather.update');
 Route::get('/informasi', [CuacaController::class, 'index'])->name('cuaca');
 Route::get('/resistensi', [CuacaController::class, 'resitensi'])->name('cuaca');
+
+// routes/web.php
+Route::get('/get-insektisida/{bio_id}', [PanduanController::class, 'getInsektisida']);
+
+
 //GAP
 Route::get('/gap/{tanaman:nm_tanaman}', [HomeGapController::class, 'index']);
 

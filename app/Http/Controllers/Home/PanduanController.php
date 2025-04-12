@@ -16,11 +16,9 @@ class PanduanController extends Controller
 
         $panduans->each(function ($panduan) {
             if ($panduan->insektisida) {
-                // Konversi string JSON menjadi array
                 $crossResistensArray = json_decode($panduan->insektisida->cross_resistens, true) ?? [];
                 $saranInsektisidaArray = json_decode($panduan->insektisida->saran_insektisida, true) ?? [];
 
-                // Ambil nama golongan dan bahan berdasarkan ID
                 $panduan->insektisida->cross_resistens_names = Golongan::whereIn('id', $crossResistensArray)
                     ->pluck('nm_golongan')
                     ->toArray();
@@ -38,6 +36,32 @@ class PanduanController extends Controller
                     ->toArray();
             }
         });
-        return view('home.panduan.index', ['tanaman' => $tanaman, 'panduans' => $panduans]);
+
+        // ⬇️ Ini yang penting: diolah jadi array siap pakai
+        $processedPanduans = $panduans->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'bio_id' => $item->bio_id,
+                'insektisida_id' => $item->insektisida_id,
+                'bio' => [
+                    'id' => $item->bio->id,
+                    'nm_hama' => $item->bio->nm_hama,
+                ],
+                'insektisida' => $item->insektisida ? [
+                    'id' => $item->insektisida->id,
+                    'nm_insektisida' => $item->insektisida->nm_insektisida,
+                    'cross_resistens_names' => $item->insektisida->cross_resistens_names ?? [],
+                    'cross_resistens_bahan' => $item->insektisida->cross_resistens_bahan ?? [],
+                    'saran_insektisida_names' => $item->insektisida->saran_insektisida_names ?? [],
+                    'saran_insektisida_bahan' => $item->insektisida->saran_insektisida_bahan ?? [],
+                ] : null,
+            ];
+        });
+
+        return view('home.panduan.index', [
+            'tanaman' => $tanaman,
+            'panduans' => $panduans,
+            'processedPanduans' => $processedPanduans,
+        ]);
     }
 }
