@@ -16,7 +16,7 @@
                     <table class="table datatable">
                         <thead class="table-dark">
                             <tr>
-                                <th>Gambar</th>
+
                                 <th>Hama</th>
                                 <th>Insektisida Resisten</th>
                                 <th>Insektisida Cross Resisten</th>
@@ -27,10 +27,10 @@
                         <tbody>
                             @foreach ($panduans as $panduan)
                                 <tr>
-                                    <td>
+                                    {{-- <td>
                                         <img src="{{ asset($panduan->bio->gambar) }}" class="img-fluid" width="100"
                                             alt="Gambar Hama">
-                                    </td>
+                                    </td> --}}
                                     <td>{{ $panduan->bio->nm_hama }}</td>
                                     <td>{{ $panduan->insektisida->nm_insektisida ?? '-' }}</td>
 
