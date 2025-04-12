@@ -21,8 +21,9 @@ class Kernel extends ConsoleKernel
             ->timezone('Asia/Jakarta'); // Jalankan setiap hari jam 00:10 WIB
 
         $schedule->command('cuaca:kirim-peringatan')
-            ->twiceMonthly(1, 15, '08:00') // Tanggal 1 dan 15 jam 08:00 WIB
-            ->timezone('Asia/Jakarta');
+            ->twiceMonthly(1, 12, '09:50')
+            ->timezone('Asia/Jakarta')
+            ->sendOutputTo(storage_path('logs/cuaca_output.log'));
     }
 
 
