@@ -27,7 +27,8 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td><img src="{{ asset($blog->gambar) }}" alt="Gambar" class="img-thumbnail"
-                                                width="100"></td>
+                                                width="100">
+                                            {{ asset($blog->gambar) }}</td>
                                         <td>{{ $blog->judul }}</td>
                                         <td>{!! Str::limit($blog->isi, 100, '...') !!}</td>
                                         <td>
