@@ -9,7 +9,7 @@
                 </div>
 
                 <a href="{{ route('panduan.create', ['tanaman' => $tanaman->nm_tanaman]) }}" class="btn btn-primary mb-3">
-                    Tambah Kegiatan
+                    Tambah panduan
                 </a>
 
                 <div class="table-responsive">
