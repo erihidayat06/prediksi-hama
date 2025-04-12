@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h5 class="fw-bold">Good Agricultural Practice</h5>
+                    <h5 class="fw-bold">Panduan penggunaan pestisida</h5>
                 </div>
 
                 <a href="{{ route('panduan.create', ['tanaman' => $tanaman->nm_tanaman]) }}" class="btn btn-primary mb-3">
