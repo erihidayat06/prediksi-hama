@@ -92,9 +92,9 @@
                                 <a href="/blog/{{ $blog->slug }}"
                                     class="list-group-item list-group-item-action d-flex align-items-center p-3 border rounded shadow-sm mb-3">
                                     <img src="{{ asset($blog->gambar) }}" class="me-3 flex-shrink-0 rounded" width="50"
-                                        alt="Berita Terbaru {{ Str::limit($trending->judul, 30, '...') }}">
+                                        alt="Berita Terbaru {{ Str::limit($blog->judul, 30, '...') }}">
                                     <div class="judul-berita">
-                                        {{ Str::limit($trending->judul, 30, '...') }}
+                                        {{ Str::limit($blog->judul, 30, '...') }}
                                     </div>
                                 </a>
                             </div>
