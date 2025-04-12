@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h5 class="fw-bold">Edit Data Insektisida</h5>
+                    <h5 class="fw-bold">Edit Data Resistensi</h5>
                 </div>
                 <form action="{{ route('insektisida.update', $insektisida->id) }}" method="POST"
                     enctype="multipart/form-data">
@@ -14,7 +14,7 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label for="nm_insektisida" class="form-label">Nama Instisida</label>
+                        <label for="nm_insektisida" class="form-label">Nama Bahan aktif</label>
                         <input type="text" class="form-control @error('nm_insektisida') is-invalid @enderror"
                             id="nm_insektisida" name="nm_insektisida"
                             value="{{ old('nm_insektisida', $insektisida->nm_insektisida) }}">
