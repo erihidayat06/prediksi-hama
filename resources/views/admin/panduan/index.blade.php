@@ -63,7 +63,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{ route('panduan.edit', ['gap' => $panduan->id, 'tanaman' => $tanaman->nm_tanaman]) }}"
+                                        <a href="{{ route('panduan.edit', ['tanaman' => $tanaman->nm_tanaman, 'panduan' => $panduan->id]) }}"
                                             class="btn btn-warning btn-sm">
                                             Edit
                                         </a>

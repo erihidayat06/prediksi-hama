@@ -39,6 +39,10 @@ class Tanaman extends Model
     {
         return $this->hasMany(Panduan::class);
     }
+    public function panduans()
+    {
+        return $this->hasMany(Panduan::class);
+    }
 
     use HasFactory;
 }

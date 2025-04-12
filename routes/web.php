@@ -62,9 +62,9 @@ Route::middleware(['auth', 'is_admin'])->group(
         Route::get('/admin/tanaman/{tanaman:nm_tanaman}/panduan', [PanduanController::class, 'index'])->name('panduan.index');
         Route::get('/admin/tanaman/{tanaman:nm_tanaman}/panduan/create', [PanduanController::class, 'create'])->name('panduan.create');
         Route::post('/admin/tanaman/{tanaman:nm_tanaman}/panduan/store', [PanduanController::class, 'store'])->name('panduan.store');
-        Route::get('/admin/tanaman/{tanaman:nm_tanaman}/panduan/{gap:id}/edit', [PanduanController::class, 'edit'])->name('panduan.edit');
-        Route::put('/admin/tanaman/{tanaman:nm_tanaman}/panduan/{gap:id}', [PanduanController::class, 'update'])->name('panduan.update');
-        Route::delete('/admin/tanaman/panduan/{gap:id}', [PanduanController::class, 'destroy'])->name('panduan.destroy');
+        Route::get('/admin/tanaman/{tanaman:nm_tanaman}/panduan/{panduan:id}/edit', [PanduanController::class, 'edit'])->name('panduan.edit');
+        Route::put('/admin/tanaman/{tanaman:nm_tanaman}/panduan/{panduan:id}', [PanduanController::class, 'update'])->name('panduan.update');
+        Route::delete('/admin/tanaman/panduan/{panduan:id}', [PanduanController::class, 'destroy'])->name('panduan.destroy');
 
         // Golongan
         Route::resource('/admin/golongan', GolonganController::class);

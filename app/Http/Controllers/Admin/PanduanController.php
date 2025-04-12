@@ -88,24 +88,41 @@ class PanduanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Panduan $panduan)
+    public function edit(Tanaman $tanaman, Panduan $panduan)
     {
-        //
+
+        $bios = $tanaman->bios; // relasi bios dari tanaman terkait
+        $insektisidas = Insektisida::latest()->get();
+
+        return view('admin.panduan.edit', compact('panduan', 'tanaman', 'bios', 'insektisidas'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Panduan $panduan)
+    public function update(Request $request, Tanaman $tanaman, Panduan $panduan)
     {
-        //
-    }
+        $request->validate([
+            'bio_id' => 'required|exists:bios,id',
+            'insektisida_id' => 'required|exists:insektisidas,id',
+        ]);
 
+        $panduan->update([
+            'bio_id' => $request->bio_id,
+            'insektisida_id' => $request->insektisida_id,
+        ]);
+
+        return redirect()->route('panduan.index', ['tanaman' => $tanaman->nm_tanaman])
+            ->with('success', 'Data panduan berhasil diperbarui.');
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Panduan $panduan)
+    public function destroy(Tanaman $tanaman, Panduan $panduan)
     {
-        //
+        $panduan->delete();
+
+        return redirect()->back()
+            ->with('success', 'Data panduan berhasil dihapus.');
     }
 }
