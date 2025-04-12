@@ -7,6 +7,10 @@
 
 <body>
     <h2>Peringatan Perubahan Sebaran Hama Berdasarkan Cuaca</h2>
+
+    <p><strong>Pada tanggal:</strong>
+        {{ \Carbon\Carbon::now()->addDays(14)->locale('id')->translatedFormat('d F Y') }}</p>
+
     <p>Ada perubahan sebaran hama pada beberapa kecamatan:</p>
 
     <ul>
