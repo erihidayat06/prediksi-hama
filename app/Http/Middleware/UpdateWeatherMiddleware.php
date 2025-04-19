@@ -15,6 +15,7 @@ class UpdateWeatherMiddleware
         if (!Cache::has('weather_last_update')) {
             // Jalankan perintah update
             Artisan::call('weather:update');
+            Artisan::call('fetch:harga-pangan');
 
             // Simpan cache supaya hanya update 1 kali sehari
             Cache::put('weather_last_update', now()->toDateString(), now()->endOfDay());
