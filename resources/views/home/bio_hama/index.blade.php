@@ -35,19 +35,24 @@
                             <div class="modal-body">
                                 <div class="row align-items-center">
                                     <div class="col-md-5 text-center">
+                                        <p>Hama</p>
                                         <img src="{{ $hama['gambar'] }}" class="img-fluid rounded shadow-sm"
-                                            alt="{{ $hama['nm_hama'] }}">
+                                            alt="{{ $hama['nm_hama'] }}" style="height: 200px; object-fit: cover;">
                                     </div>
-                                    <div class="col-md-7">
-                                        <ul class="list-unstyled">
-                                            <li><strong>Order:</strong> {{ $hama['order'] }}</li>
-                                            <li><strong>Suborder:</strong> {{ $hama['suborder'] }}</li>
-                                            <li><strong>Families:</strong> {{ $hama['families'] }}</li>
-                                            <li><strong>Genus:</strong> {{ $hama['genus'] }}</li>
-                                            <li><strong>Species:</strong> {{ $hama['species'] }}</li>
-                                        </ul>
+                                    <div class="col-md-5 text-center">
+                                        <p>Sebaran hama</p>
+                                        <img src="{{ $hama['sebaran'] }}" class="img-fluid rounded shadow-sm"
+                                            alt="{{ $hama['nm_hama'] }}" style="height: 200px; object-fit: cover;">
                                     </div>
                                 </div>
+
+                                <ul class="list-unstyled mt-3">
+                                    <li><strong>Order:</strong> {{ $hama['order'] }}</li>
+                                    <li><strong>Suborder:</strong> {{ $hama['suborder'] }}</li>
+                                    <li><strong>Families:</strong> {{ $hama['families'] }}</li>
+                                    <li><strong>Genus:</strong> {{ $hama['genus'] }}</li>
+                                    <li><strong>Species:</strong> {{ $hama['species'] }}</li>
+                                </ul>
                                 <hr>
                                 <p class="mt-3">{!! $hama['deskripsi'] !!}</p>
                             </div>

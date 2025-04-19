@@ -37,6 +37,21 @@
                                 @if (!$bio->gambar) style="display: none;" @endif>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="sebaran" class="form-label">Gambar Sebaran Hama</label>
+                        <input type="file" class="form-control @error('sebaran') is-invalid @enderror" name="sebaran"
+                            id="sebaranInput" accept="image/*" onchange="previewImage(event)">
+
+                        @error('sebaran')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+
+                        <!-- Preview sebaran -->
+                        <div class="mt-3">
+                            <img id="sebaranPreview" src="{{ asset($bio->sebaran) }}" class="img-thumbnail" width="200"
+                                @if (!$bio->sebaran) style="display: none;" @endif>
+                        </div>
+                    </div>
 
                     <div class="mb-3">
                         <label for="nm_hama" class="form-label">Nama Hama</label>
@@ -118,6 +133,21 @@
 
             reader.onload = function() {
                 var imgElement = document.getElementById('gambarPreview');
+                imgElement.src = reader.result;
+                imgElement.style.display = "block";
+            };
+
+            if (input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function previewImage(event) {
+            var input = event.target;
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                var imgElement = document.getElementById('sebaranPreview');
                 imgElement.src = reader.result;
                 imgElement.style.display = "block";
             };

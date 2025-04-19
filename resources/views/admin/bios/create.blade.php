@@ -21,6 +21,13 @@
                         @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="sebaran" class="form-label">Gambar Sebaran</label>
+                        <input type="file" class="form-control @error('sebaran') is-invalid @enderror" name="sebaran">
+                        @error('sebaran')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="nm_hama" class="form-label">Nama Hama</label>
                         <input type="text" class="form-control @error('nm_hama') is-invalid @enderror" name="nm_hama"
                             value="{{ old('nm_hama') }}">

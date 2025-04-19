@@ -34,6 +34,7 @@ class BioController extends Controller
     public function store(Request $request, Tanaman $tanaman)
     {
         $request->validate([
+            'sebaran' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'nm_hama' => 'required|string|max:255',
             'order' => 'required|string|max:255',
@@ -48,9 +49,14 @@ class BioController extends Controller
             $gambarPath = $request->file('gambar')->store('hama_images', 'public');
             $gambarUrl = Storage::url($gambarPath);
         }
+        if ($request->hasFile('sebaran')) {
+            $sebaranPath = $request->file('sebaran')->store('hama_images', 'public');
+            $sebaranUrl = Storage::url($sebaranPath);
+        }
 
         $hama = Bio::create([
             'gambar' => $gambarUrl ?? null,
+            'gambar' => $sebaranUrl ?? null,
             'nm_hama' => $request->nm_hama,
             'order' => $request->order,
             'suborder' => $request->suborder,
@@ -100,6 +106,7 @@ class BioController extends Controller
 
         $validatedData = $request->validate([
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'sebaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'nm_hama' => 'required|string|max:255',
             'order' => 'required|string|max:255',
             'suborder' => 'required|string|max:255',
@@ -119,6 +126,16 @@ class BioController extends Controller
             $validatedData['gambar'] = '/storage/' . $imagePath; // Simpan path lengkap
         } else {
             $validatedData['gambar'] = $bio->gambar; // Tetap pakai gambar lama
+        }
+        if ($request->hasFile('sebaran')) {
+            if ($bio->sebaran) {
+                Storage::disk('public')->delete(str_replace('/storage/', '', $bio->sebaran));
+            }
+
+            $imagePath = $request->file('sebaran')->store('hama_images', 'public');
+            $validatedData['sebaran'] = '/storage/' . $imagePath; // Simpan path lengkap
+        } else {
+            $validatedData['sebaran'] = $bio->sebaran; // Tetap pakai gambar lama
         }
 
         $bio->update($validatedData);

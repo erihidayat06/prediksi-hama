@@ -14,6 +14,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Gambar</th>
+                                <th>Sebaran</th>
                                 <th>Nama Hama</th>
                                 <th>Order</th>
                                 <th>Suborder</th>
@@ -27,6 +28,7 @@
                             @foreach ($bios as $bio)
                                 <tr>
                                     <td><img src="{{ asset($bio->gambar) }}" class="img-fluid" width="100"></td>
+                                    <td><img src="{{ asset($bio->sebaran) }}" class="img-fluid" width="100"></td>
                                     <td>{{ $bio->nm_hama }}</td>
                                     <td>{{ $bio->order }}</td>
                                     <td>{{ $bio->suborder }}</td>
