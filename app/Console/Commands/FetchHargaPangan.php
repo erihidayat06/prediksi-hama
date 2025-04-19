@@ -22,7 +22,7 @@ class FetchHargaPangan extends Command
             13 => 3  // Bawang Merah
         ];
 
-        // **Langkah 1: Ambil tanggal terbaru dari database**
+        // Ambil tanggal terbaru dari database
         $latestDate = Komoditi::max('tanggal');
 
         if (!$latestDate) {
@@ -30,32 +30,48 @@ class FetchHargaPangan extends Command
             return;
         }
 
-        // **Langkah 2: Tambah 1 hari dari tanggal terbaru**
+        // Tambah 1 hari dari tanggal terbaru
         $nextDate = Carbon::parse($latestDate)->addDay()->format('Y-m-d');
 
         foreach ($tanamanMap as $variant_id => $tanaman_id) {
             $url = "https://api-sp2kp.kemendag.go.id/report/api/average-price-public?level=1&tanggal=$nextDate&take=9999999&variant_id=$variant_id";
 
-            $response = Http::get($url);
-            $data = $response->json()['data'] ?? [];
+            try {
+                $response = Http::timeout(10)->get($url); // batas waktu 10 detik
 
-            foreach ($data as $item) {
-                if ($item['nama_provinsi'] === 'Jawa Tengah') {
-                    // **Simpan hanya jika tanggal ini belum ada di database**
-                    Komoditi::updateOrCreate(
-                        [
-                            'nama_provinsi' => $item['nama_provinsi'],
-                            'tanaman_id'    => $tanaman_id,
-                            'tanggal'       => $nextDate,
-                        ],
-                        [
-                            'harga_provinsi' => $item['harga']
-                        ]
-                    );
+                if (!$response->ok()) {
+                    $this->warn("Gagal mengambil data untuk variant_id $variant_id. Status: " . $response->status());
+                    continue;
                 }
+
+                $data = $response->json()['data'] ?? [];
+
+                if (empty($data)) {
+                    $this->warn("Tidak ada data untuk variant_id $variant_id pada tanggal $nextDate.");
+                    continue;
+                }
+
+                foreach ($data as $item) {
+                    if ($item['nama_provinsi'] === 'Jawa Tengah') {
+                        Komoditi::updateOrCreate(
+                            [
+                                'nama_provinsi' => $item['nama_provinsi'],
+                                'tanaman_id'    => $tanaman_id,
+                                'tanggal'       => $nextDate,
+                            ],
+                            [
+                                'harga_provinsi' => $item['harga']
+                            ]
+                        );
+                    }
+                }
+
+                $this->info("Data untuk variant_id $variant_id berhasil diproses.");
+            } catch (\Exception $e) {
+                $this->error("Error saat mengakses API untuk variant_id $variant_id: " . $e->getMessage());
             }
         }
 
-        $this->info("Data harga pangan untuk tanggal $nextDate berhasil ditambahkan!");
+        $this->info("Proses fetch harga pangan selesai untuk tanggal $nextDate.");
     }
 }

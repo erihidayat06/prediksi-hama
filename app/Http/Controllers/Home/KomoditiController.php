@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Models\Tanaman;
+use App\Models\Komoditi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\Komoditi;
-use App\Models\Tanaman;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
@@ -52,62 +53,68 @@ class KomoditiController extends Controller
             13 => 3  // Bawang Merah
         ];
 
-        $variants = array_keys($tanamanMap); // Ambil variant_id dari mapping
+        $variants = array_keys($tanamanMap);
 
-        // Tentukan endDate sebagai 2 hari ke belakang
+        // Rentang waktu: 32 hari sebelum 2 hari lalu
         $endDate = Carbon::today()->subDays(2)->format('Y-m-d');
-        // Tentukan startDate sebagai 7 hari dari endDate
         $startDate = Carbon::parse($endDate)->subDays(32)->format('Y-m-d');
 
-        // Nama cache key
         $cacheKey = "harga_pangan_{$startDate}_{$endDate}";
 
-        // Gunakan cache untuk menyimpan data selama 1 hari
         $categorizedData = Cache::remember($cacheKey, now()->addDay(), function () use ($startDate, $endDate, $variants, $tanamanMap) {
             $result = [];
 
-            // Looping setiap tanggal dalam rentang waktu
             $currentDate = $startDate;
+
             while ($currentDate <= $endDate) {
                 foreach ($variants as $variant_id) {
                     $url = "https://api-sp2kp.kemendag.go.id/report/api/average-price-public?level=1&tanggal=$currentDate&take=9999999&variant_id=$variant_id";
 
-                    $response = Http::get($url);
-                    $data = $response->json()['data'] ?? []; // Pastikan data tidak null
+                    try {
+                        $response = Http::timeout(10)->get($url);
 
-                    // Filter hanya data dari Jawa Tengah
-                    foreach ($data as $item) {
-                        if ($item['nama_provinsi'] === 'Jawa Tengah') {
-                            $tanaman_id = $tanamanMap[$variant_id];
-
-                            // Simpan ke database dengan tanggal yang berbeda
-                            Komoditi::updateOrCreate(
-                                [
-                                    'nama_provinsi' => $item['nama_provinsi'],
-                                    'tanaman_id'    => $tanaman_id,
-                                    'tanggal'       => $currentDate, // Simpan tanggalnya
-                                ],
-                                [
-                                    'harga_provinsi' => $item['harga']
-                                ]
-                            );
-
-                            $result[$tanaman_id][] = [
-                                'tanggal'       => $currentDate,
-                                'nama_provinsi' => $item['nama_provinsi'],
-                                'harga_provinsi' => $item['harga'],
-                            ];
+                        if (!$response->ok()) {
+                            Log::warning("Gagal ambil data variant_id $variant_id pada $currentDate. Status: " . $response->status());
+                            continue;
                         }
+
+                        $data = $response->json()['data'] ?? [];
+
+                        foreach ($data as $item) {
+                            if ($item['nama_provinsi'] === 'Jawa Tengah') {
+                                $tanaman_id = $tanamanMap[$variant_id];
+
+                                Komoditi::updateOrCreate(
+                                    [
+                                        'nama_provinsi' => $item['nama_provinsi'],
+                                        'tanaman_id'    => $tanaman_id,
+                                        'tanggal'       => $currentDate,
+                                    ],
+                                    [
+                                        'harga_provinsi' => $item['harga']
+                                    ]
+                                );
+
+                                $result[$tanaman_id][] = [
+                                    'tanggal'        => $currentDate,
+                                    'nama_provinsi'  => $item['nama_provinsi'],
+                                    'harga_provinsi' => $item['harga'],
+                                ];
+                            }
+                        }
+                    } catch (\Exception $e) {
+                        Log::error("Error API variant_id $variant_id ($currentDate): " . $e->getMessage());
+                        continue;
                     }
                 }
 
-                // Tambah satu hari ke tanggal saat ini
                 $currentDate = Carbon::parse($currentDate)->addDay()->format('Y-m-d');
             }
 
             return $result;
         });
 
-        dd($categorizedData); // Debug hasilnya
+        // Debug
+        dd($categorizedData);
     }
 }
