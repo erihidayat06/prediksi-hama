@@ -17,7 +17,7 @@ class UpdateWeatherMiddleware
             // Jalankan semua perintah harian
             Artisan::call('weather:update');
             Artisan::call('fetch:harga-pangan');
-            Artisan::call('cuaca:kirim-peringatan');
+            // Artisan::call('cuaca:kirim-peringatan');
 
             // Simpan cache agar tidak dijalankan ulang sampai besok
             Cache::put('daily_commands_ran', now()->toDateString(), now()->endOfDay());
