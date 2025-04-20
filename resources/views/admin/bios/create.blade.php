@@ -21,7 +21,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="sebaran" class="form-label">Gambar Sebaran</label>
+                        <label for="sebaran" class="form-label">Gambar Gejala Serangan</label>
                         <input type="file" class="form-control @error('sebaran') is-invalid @enderror" name="sebaran">
                         @error('sebaran')
                             <div class="invalid-feedback">{{ $message }}</div>

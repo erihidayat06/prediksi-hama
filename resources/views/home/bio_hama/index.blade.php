@@ -40,7 +40,7 @@
                                             alt="{{ $hama['nm_hama'] }}" style="height: 200px; object-fit: cover;">
                                     </div>
                                     <div class="col-md-5 text-center">
-                                        <p>Sebaran hama</p>
+                                        <p>Gejala Serangan</p>
                                         <img src="{{ $hama['sebaran'] }}" class="img-fluid rounded shadow-sm"
                                             alt="{{ $hama['nm_hama'] }}" style="height: 200px; object-fit: cover;">
                                     </div>

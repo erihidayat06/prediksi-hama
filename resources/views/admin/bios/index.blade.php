@@ -14,7 +14,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Gambar</th>
-                                <th>Sebaran</th>
+                                <th>Gejala Serangan</th>
                                 <th>Nama Hama</th>
                                 <th>Order</th>
                                 <th>Suborder</th>
