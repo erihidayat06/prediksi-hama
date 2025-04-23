@@ -18,7 +18,7 @@
                         </h3>
                         @if ($tanamanTerpilih == 'cabai')
                             <ul class="p-0">
-                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips spp
+                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Kutu kebul
                                 </li>
@@ -39,8 +39,7 @@
                             </ul>
                         @else
                             <ul class="p-0">
-                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips spp
-                                    tabacci
+                                <li class="list-group-item"><i class="bi bi-square-fill merah-text"></i> Thrips
                                 </li>
                                 <li class="list-group-item"><i class="bi bi-square-fill hijau-text"></i> Ulat Bawang
                                     Merah

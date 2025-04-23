@@ -80,7 +80,7 @@
                                 aria-controls="v-pills-home{{ $gap->id }}"
                                 aria-selected="{{ $loop->first ? 'true' : 'false' }}">
                                 <img src="{{ asset($gap->gambar) }}" width="20px" class="me-2" alt="">
-                                {{ $gap->kegiatan }}
+                                {{ $gap->kegiatan }} ({{ $gap->usia }})
                             </button>
                         @endforeach
                     </div>
