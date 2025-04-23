@@ -33,7 +33,7 @@
                                     batang padi
 
                                 </li>
-                                <li class="list-group-item"><i class="bi bi-square-fill kuning-text"></i> Walang
+                                <li class="list-group-item"><i class="bi bi-square-fill oren-text"></i> Walang
                                     sangit
                                 </li>
                             </ul>

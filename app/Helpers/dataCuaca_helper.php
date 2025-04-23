@@ -80,13 +80,13 @@ if (!function_exists('dataCuaca')) {
 
             $hama_kriteria = [
                 'cabai' => [
-                    'Thrips SPP' => [
+                    'Thrips' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 20, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 80, 'opt_min' => 50, 'opt_max' => 70],
                         'curah_hujan' => ['min' => 600, 'max' => 1200, 'opt_min' => 800, 'opt_max' => 1000],
                         'color' => "merah-color"
                     ],
-                    'Bemesia Tabacci' => [
+                    'Kutu kebul' => [
                         'suhu' => ['min' => 15, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 500, 'max' => 1500, 'opt_min' => 800, 'opt_max' => 2000],
@@ -100,17 +100,11 @@ if (!function_exists('dataCuaca')) {
                     ],
                 ],
                 'padi' => [
-                    'Wereng Batang' => [
+                    'Wereng' => [
                         'suhu' => ['min' => 15, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 60, 'max' => 90, 'opt_min' => 60, 'opt_max' => 90],
                         'curah_hujan' => ['min' => 500, 'max' => 2500, 'opt_min' => 1200, 'opt_max' => 2000],
                         'color' => "merah-color"
-                    ],
-                    'Padi Cokelat' => [
-                        'suhu' => ['min' => 18, 'max' => 37, 'opt_min' => 26, 'opt_max' => 30],
-                        'kelembaban' => ['min' => 60, 'max' => 95, 'opt_min' => 70, 'opt_max' => 85],
-                        'curah_hujan' => ['min' => 1000, 'max' => 3000, 'opt_min' => 1500, 'opt_max' => 2500],
-                        'color' => "oren-color"
                     ],
                     'Penggerek batang padi' => [
                         'suhu' => ['min' => 15, 'max' => 37, 'opt_min' => 25, 'opt_max' => 30],
@@ -122,11 +116,11 @@ if (!function_exists('dataCuaca')) {
                         'suhu' => ['min' => 18, 'max' => 35, 'opt_min' => 28, 'opt_max' => 32],
                         'kelembaban' => ['min' => 50, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 600, 'max' => 2000, 'opt_min' => 1000, 'opt_max' => 2000],
-                        'color' => "kuning-color"
+                        'color' => "oren-color"
                     ],
                 ],
                 'bawang-merah' => [
-                    'Thrips tabacci' => [
+                    'Thrips' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 500, 'max' => 1500, 'opt_min' => 1200, 'opt_max' => 1500],
@@ -138,7 +132,7 @@ if (!function_exists('dataCuaca')) {
                         'curah_hujan' => ['min' => 600, 'max' => 1800, 'opt_min' => 1000, 'opt_max' => 1800],
                         'color' => "hijau-color"
                     ],
-                    'Fusarium' => [
+                    'Moler' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 20, 'opt_max' => 28],
                         'kelembaban' => ['min' => 60, 'max' => 95, 'opt_min' => 80, 'opt_max' => 90],
                         'curah_hujan' => ['min' => 800, 'max' => 2000, 'opt_min' => 1200, 'opt_max' => 1800],
@@ -322,13 +316,13 @@ if (!function_exists('dataCuacaSebelum')) {
 
             $hama_kriteria = [
                 'cabai' => [
-                    'Thrips SPP' => [
+                    'Thrips' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 20, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 80, 'opt_min' => 50, 'opt_max' => 70],
                         'curah_hujan' => ['min' => 600, 'max' => 1200, 'opt_min' => 800, 'opt_max' => 1000],
                         'color' => "merah-color"
                     ],
-                    'Bemesia Tabacci' => [
+                    'Kutu kebul' => [
                         'suhu' => ['min' => 15, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 500, 'max' => 1500, 'opt_min' => 800, 'opt_max' => 2000],
@@ -342,17 +336,11 @@ if (!function_exists('dataCuacaSebelum')) {
                     ],
                 ],
                 'padi' => [
-                    'Wereng Batang' => [
+                    'Wereng' => [
                         'suhu' => ['min' => 15, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 60, 'max' => 90, 'opt_min' => 60, 'opt_max' => 90],
                         'curah_hujan' => ['min' => 500, 'max' => 2500, 'opt_min' => 1200, 'opt_max' => 2000],
                         'color' => "merah-color"
-                    ],
-                    'Padi Cokelat' => [
-                        'suhu' => ['min' => 18, 'max' => 37, 'opt_min' => 26, 'opt_max' => 30],
-                        'kelembaban' => ['min' => 60, 'max' => 95, 'opt_min' => 70, 'opt_max' => 85],
-                        'curah_hujan' => ['min' => 1000, 'max' => 3000, 'opt_min' => 1500, 'opt_max' => 2500],
-                        'color' => "oren-color"
                     ],
                     'Penggerek batang padi' => [
                         'suhu' => ['min' => 15, 'max' => 37, 'opt_min' => 25, 'opt_max' => 30],
@@ -364,11 +352,11 @@ if (!function_exists('dataCuacaSebelum')) {
                         'suhu' => ['min' => 18, 'max' => 35, 'opt_min' => 28, 'opt_max' => 32],
                         'kelembaban' => ['min' => 50, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 600, 'max' => 2000, 'opt_min' => 1000, 'opt_max' => 2000],
-                        'color' => "kuning-color"
+                        'color' => "oren-color"
                     ],
                 ],
                 'bawang-merah' => [
-                    'Thrips tabacci' => [
+                    'Thrips' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 25, 'opt_max' => 30],
                         'kelembaban' => ['min' => 40, 'max' => 90, 'opt_min' => 60, 'opt_max' => 80],
                         'curah_hujan' => ['min' => 500, 'max' => 1500, 'opt_min' => 1200, 'opt_max' => 1500],
@@ -380,7 +368,7 @@ if (!function_exists('dataCuacaSebelum')) {
                         'curah_hujan' => ['min' => 600, 'max' => 1800, 'opt_min' => 1000, 'opt_max' => 1800],
                         'color' => "hijau-color"
                     ],
-                    'Fusarium' => [
+                    'Moler' => [
                         'suhu' => ['min' => 10, 'max' => 35, 'opt_min' => 20, 'opt_max' => 28],
                         'kelembaban' => ['min' => 60, 'max' => 95, 'opt_min' => 80, 'opt_max' => 90],
                         'curah_hujan' => ['min' => 800, 'max' => 2000, 'opt_min' => 1200, 'opt_max' => 1800],

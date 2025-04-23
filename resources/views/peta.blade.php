@@ -36,7 +36,7 @@
 
     .oren-color {
         cursor: pointer;
-        fill: rgb(61, 201, 182);
+        fill: rgb(60, 26, 4);
     }
 
     .biru-text {
@@ -56,7 +56,7 @@
 
     .oren-text {
         cursor: pointer;
-        color: rgb(61, 201, 182);
+        color: rgb(60, 26, 4);
     }
 
     path:hover {
