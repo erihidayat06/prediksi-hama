@@ -49,7 +49,7 @@
                     <a class="nav-link text-main {{ Request::is('blog') ? 'fw-bold ' : '' }}" href="/blog">Blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-main" href="#">Market Place</a>
+                    <a class="nav-link text-main" href="/marketplace">Market Place</a>
                 </li>
                 @auth
                     <li class="nav-item dropdown">
