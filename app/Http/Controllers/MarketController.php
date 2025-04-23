@@ -47,8 +47,16 @@ class MarketController extends Controller
     }
     public function jualProducts()
     {
+        $filePath = storage_path('app/data/kecamatan-brebes.json');
 
-        return view('home.marketplace.jual');
+        $kecamatans = [];
+
+        if (file_exists($filePath)) {
+            $json = file_get_contents($filePath);
+            $kecamatans = json_decode($json);
+        }
+
+        return view('home.marketplace.jual', compact('kecamatans'));
     }
 
     public function store(Request $request)

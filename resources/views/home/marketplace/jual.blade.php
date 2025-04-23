@@ -122,16 +122,25 @@
                                 @enderror
                             </div>
 
-
                             {{-- Kecamatan --}}
                             <div class="mb-3">
                                 <label for="kecamatan" class="form-label">Kecamatan</label>
-                                <input class="form-control @error('kecamatan') is-invalid @enderror" type="text"
-                                    name="kecamatan" id="kecamatan" value="{{ old('kecamatan') }}">
+                                <select class="form-select @error('kecamatan') is-invalid @enderror" name="kecamatan"
+                                    id="kecamatan">
+                                    <option value="">-- Pilih Kecamatan --</option>
+                                    @foreach ($kecamatans as $kecamatan)
+                                        <option value="{{ $kecamatan->kecamatan }}"
+                                            {{ old('kecamatan') == $kecamatan->kecamatan ? 'selected' : '' }}>
+                                            {{ $kecamatan->kecamatan }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('kecamatan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
+
 
                             {{-- Desa --}}
                             <div class="mb-3">
