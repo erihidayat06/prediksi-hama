@@ -86,6 +86,8 @@
             </div>
 
         </div>
+
+        <p>Sumber data: Kementrian perdagangan (Kemendag)</p>
     </div>
 
     <!-- Tambahkan CSS -->

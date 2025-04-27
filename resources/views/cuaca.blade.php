@@ -7,7 +7,7 @@
 <div class="container">
     <div class="mt-5">
         <h2 class="mb-4 text-center">Perkiraan Penyebaran Hama dari
-            {{ \Carbon\Carbon::now()->startOfWeek()->addDays(7)->format('d F Y') }}
+            {{ \Carbon\Carbon::now()->startOfWeek()->addDays(14)->format('d F Y') }}
 
         </h2>
 
@@ -97,6 +97,8 @@
     @endif
 </div>
 
+
+<p>Sumber: weatherapi.com</p>
 <!-- Script untuk Pencarian dengan jQuery -->
 <script>
     $(document).ready(function() {

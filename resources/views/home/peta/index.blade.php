@@ -53,5 +53,6 @@
             </div>
         </div>
 
+        <p>Sumber cuaca: weatherapi.com</p>
     </div>
 @endsection

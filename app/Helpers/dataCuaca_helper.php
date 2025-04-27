@@ -36,42 +36,35 @@ if (!function_exists('dataCuaca')) {
             $totalKelembapanMin = $totalKelembapanMax = $totalKelembapanOptimum = 0;
             $curahHujanData = [];
             $jumlahHari = 0; // Menghitung jumlah hari yang ditemukan
+            // Mulai dari hari ini
+            $startDate = Carbon::now();
+            $endDate = $startDate->copy()->addDays(14); // Sampai 14 hari ke depan
+            // Loop dari hari ini sampai 2 minggu ke depan
+            while ($startDate->lte($endDate)) {
+                $formattedDate = $startDate->format('Y-m-d');
 
-            // Menentukan tanggal awal 31 Maret
-            $startDate = Carbon::create(2025, 3, 31); // Set tanggal mulai sebagai 31 Maret
-
-            // Ambil data setiap rentang 14 hari
-            for ($i = 0; $i < 4; $i++) { // Ambil 4 rentang 14 hari
-                $endDate = $startDate->copy()->addDays(14); // Tambahkan 14 hari untuk menentukan rentang
-
-                $startFormattedDate = $startDate->format('Y-m-d');
-                $endFormattedDate = $endDate->format('Y-m-d');
-
-                // Ambil data cuaca dalam rentang tanggal tersebut
+                // Ambil data cuaca untuk tanggal itu
                 $data = WeatherData::where('kecamatan', $namaKecamatan)
-                    ->whereBetween('tanggal', [$startFormattedDate, $endFormattedDate])
+                    ->whereDate('tanggal', $formattedDate)
                     ->get();
 
-                if ($data->isEmpty()) continue;
+                if (!$data->isEmpty()) {
+                    foreach ($data as $item) {
+                        $totalSuhuMin += $item->suhu_min ?? 0;
+                        $totalSuhuMax += $item->suhu_max ?? 0;
+                        $totalSuhuOptimum += $item->suhu_optimum ?? 0;
 
-                // Menambahkan nilai suhu dan kelembapan untuk setiap data yang ditemukan dalam rentang tanggal
-                foreach ($data as $item) {
-                    $totalSuhuMin += $item->suhu_min ?? 0;
-                    $totalSuhuMax += $item->suhu_max ?? 0;
-                    $totalSuhuOptimum += $item->suhu_optimum ?? 0;
+                        $totalKelembapanMin += $item->kelembapan_min ?? 0;
+                        $totalKelembapanMax += $item->kelembapan_max ?? 0;
+                        $totalKelembapanOptimum += $item->kelembapan_optimum ?? 0;
 
-                    $totalKelembapanMin += $item->kelembapan_min ?? 0;
-                    $totalKelembapanMax += $item->kelembapan_max ?? 0;
-                    $totalKelembapanOptimum += $item->kelembapan_optimum ?? 0;
+                        $curahHujanData[] = $item->curah_hujan ?? 0;
+                    }
 
-                    // Simpan nilai curah hujan
-                    $curahHujanData[] = $item->curah_hujan ?? 0;
+                    $jumlahHari += $data->count();
                 }
 
-                $jumlahHari += $data->count(); // Tambahkan jumlah hari yang ditemukan
-
-                // Set tanggal mulai untuk iterasi berikutnya (14 hari setelah rentang sebelumnya)
-                $startDate = $endDate;
+                $startDate->addDay(); // Maju ke hari berikutnya
             }
             // Menghitung rata-rata dan nilai min/max curah hujan
             $curahHujanMin = count($curahHujanData) > 0 ? min($curahHujanData) : 0;
