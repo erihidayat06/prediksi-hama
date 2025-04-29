@@ -30,48 +30,55 @@ class FetchHargaPangan extends Command
             return;
         }
 
-        // Tambah 1 hari dari tanggal terbaru
-        $nextDate = Carbon::parse($latestDate)->addDay()->format('Y-m-d');
+        $startDate = Carbon::parse($latestDate)->addDay(); // mulai dari hari setelah latest
+        $endDate = Carbon::today(); // hingga hari ini
 
-        foreach ($tanamanMap as $variant_id => $tanaman_id) {
-            $url = "https://api-sp2kp.kemendag.go.id/report/api/average-price-public?level=1&tanggal=$nextDate&take=9999999&variant_id=$variant_id";
+        while ($startDate->lte($endDate)) {
+            $tanggal = $startDate->format('Y-m-d');
+            $this->info("Memproses tanggal: $tanggal");
 
-            try {
-                $response = Http::timeout(10)->get($url); // batas waktu 10 detik
+            foreach ($tanamanMap as $variant_id => $tanaman_id) {
+                $url = "https://api-sp2kp.kemendag.go.id/report/api/average-price-public?level=1&tanggal=$tanggal&take=9999999&variant_id=$variant_id";
 
-                if (!$response->ok()) {
-                    $this->warn("Gagal mengambil data untuk variant_id $variant_id. Status: " . $response->status());
-                    continue;
-                }
+                try {
+                    $response = Http::timeout(10)->get($url);
 
-                $data = $response->json()['data'] ?? [];
-
-                if (empty($data)) {
-                    $this->warn("Tidak ada data untuk variant_id $variant_id pada tanggal $nextDate.");
-                    continue;
-                }
-
-                foreach ($data as $item) {
-                    if ($item['nama_provinsi'] === 'Jawa Tengah') {
-                        Komoditi::updateOrCreate(
-                            [
-                                'nama_provinsi' => $item['nama_provinsi'],
-                                'tanaman_id'    => $tanaman_id,
-                                'tanggal'       => $nextDate,
-                            ],
-                            [
-                                'harga_provinsi' => $item['harga']
-                            ]
-                        );
+                    if (!$response->ok()) {
+                        $this->warn("Gagal mengambil data untuk variant_id $variant_id. Status: " . $response->status());
+                        continue;
                     }
-                }
 
-                $this->info("Data untuk variant_id $variant_id berhasil diproses.");
-            } catch (\Exception $e) {
-                $this->error("Error saat mengakses API untuk variant_id $variant_id: " . $e->getMessage());
+                    $data = $response->json()['data'] ?? [];
+
+                    if (empty($data)) {
+                        $this->warn("Tidak ada data untuk variant_id $variant_id pada tanggal $tanggal.");
+                        continue;
+                    }
+
+                    foreach ($data as $item) {
+                        if ($item['nama_provinsi'] === 'Jawa Tengah') {
+                            Komoditi::updateOrCreate(
+                                [
+                                    'nama_provinsi' => $item['nama_provinsi'],
+                                    'tanaman_id'    => $tanaman_id,
+                                    'tanggal'       => $tanggal,
+                                ],
+                                [
+                                    'harga_provinsi' => $item['harga']
+                                ]
+                            );
+                        }
+                    }
+
+                    $this->info("Data untuk variant_id $variant_id berhasil diproses pada tanggal $tanggal.");
+                } catch (\Exception $e) {
+                    $this->error("Error saat mengakses API untuk variant_id $variant_id pada tanggal $tanggal: " . $e->getMessage());
+                }
             }
+
+            $startDate->addDay(); // Lanjut ke hari berikutnya
         }
 
-        $this->info("Proses fetch harga pangan selesai untuk tanggal $nextDate.");
+        $this->info("Proses fetch harga pangan selesai hingga tanggal " . Carbon::today()->format('Y-m-d') . ".");
     }
 }
