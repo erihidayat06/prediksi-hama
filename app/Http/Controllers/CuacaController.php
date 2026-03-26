@@ -29,85 +29,113 @@ class CuacaController extends Controller
 
     public function home()
     {
-        // $filePath = storage_path('app/data/kecamatan-brebes.json');
+        $filePath = storage_path('app/data/kecamatan-brebes.json');
 
-        // if (!file_exists($filePath)) {
-        //     return response()->json(['error' => 'File JSON tidak ditemukan'], 404);
-        // }
+        if (!file_exists($filePath)) {
+            return response()->json(['error' => 'File JSON tidak ditemukan'], 404);
+        }
 
-        // $kecamatanBrebes = json_decode(file_get_contents($filePath), true);
-        // if (!$kecamatanBrebes) {
-        //     return response()->json(['error' => 'File JSON tidak valid'], 500);
-        // }
+        $kecamatanBrebes = json_decode(file_get_contents($filePath), true);
 
-        // $kota = 'Brebes'; // Default kota
-        // $apiKey = env('WEATHER_API_KEY');
+        if (!$kecamatanBrebes) {
+            return response()->json(['error' => 'File JSON tidak valid'], 500);
+        }
 
-        // if (!$apiKey) {
-        //     return response()->json(['error' => 'API Key tidak ditemukan'], 500);
-        // }
+        $kota = 'Brebes';
 
-        // foreach ($kecamatanBrebes as $kecamatan) {
-        //     $namaKecamatan = $kecamatan['kecamatan'];
+        foreach ($kecamatanBrebes as $kecamatan) {
 
-        //     // Ambil koordinat dari cache atau API
-        //     $geoCacheKey = "geo_{$namaKecamatan}_{$kota}";
-        //     if (!Cache::has($geoCacheKey)) {
-        //         $apiKey = env('LOCATIONIQ_API_KEY');
-        //         $geoResponse = Http::get("https://us1.locationiq.com/v1/search.php", [
-        //             'key' => $apiKey,
-        //             'q' => "$namaKecamatan, $kota, Indonesia",
-        //             'format' => 'json',
-        //             'limit' => 1
-        //         ]);
-        //         $geoData = $geoResponse->successful() ? $geoResponse->json() : null;
-        //         Cache::forever($geoCacheKey, $geoData);
-        //     } else {
-        //         $geoData = Cache::get($geoCacheKey);
-        //     }
+            $namaKecamatan = $kecamatan['kecamatan'] ?? null;
+            if (!$namaKecamatan) continue;
 
+            // =========================
+            // GEO LOCATION
+            // =========================
+            $geoCacheKey = "geo_{$namaKecamatan}_{$kota}";
 
+            if (!Cache::has($geoCacheKey)) {
 
-        //     if (empty($geoData) || !isset($geoData[0]['lat'], $geoData[0]['lon'])) continue;
+                $geoResponse = Http::get("https://us1.locationiq.com/v1/search.php", [
+                    'key' => env('LOCATIONIQ_API_KEY'),
+                    'q' => "$namaKecamatan, $kota, Indonesia",
+                    'format' => 'json',
+                    'limit' => 1
+                ]);
 
-        //     $lat = $geoData[0]['lat'];
-        //     $lon = $geoData[0]['lon'];
+                if (!$geoResponse->successful()) {
+                    continue;
+                }
 
-        //     for ($i = -7; $i <= 7; $i++) {  // Dari 24 sampai 3 (9 hari)
-        //         $date = Carbon::now('UTC')->addDays($i)->format('Y-m-d'); // Dari tanggal 24 hingga 3
+                $geoData = $geoResponse->json();
 
-        //         $weatherData = Http::get("https://api.weatherapi.com/v1/forecast.json", [
-        //             'key' => env('WEATHER_API_KEY'),
-        //             'q' => "{$lat},{$lon}",
-        //             'days' => 1
-        //         ])->json();
+                // ✅ hanya cache kalau valid
+                if (!empty($geoData) && isset($geoData[0]['lat'], $geoData[0]['lon'])) {
+                    Cache::put($geoCacheKey, $geoData, now()->addDays(30));
+                } else {
+                    continue;
+                }
 
+            } else {
+                $geoData = Cache::get($geoCacheKey);
+            }
 
-        //         if (!$weatherData || !isset($weatherData['forecast']['forecastday'][0]['day'])) continue;
-        //         $dayData = $weatherData['forecast']['forecastday'][0]['day'];
-        //         // Curah hujan min dan max (sementara, karena API tidak menyediakan nilai spesifik)
-        //         $curahHujan = $dayData['totalprecip_mm'] ?? 0;
-        //         $curahHujanMin = ($curahHujan == 0) ? 0 : ($curahHujan * 0.5); // Perkiraan minimum
-        //         $curahHujanMax = $curahHujan; // Gunakan total sebagai maksimum
+            // Validasi lagi (double safety)
+            if (empty($geoData) || !isset($geoData[0]['lat'], $geoData[0]['lon'])) {
+                continue;
+            }
 
-        //         DB::table('weather_data')->updateOrInsert(
-        //             ['kecamatan' => $namaKecamatan, 'latitude' => $lat, 'longitude' => $lon, 'tanggal' => $date],
-        //             [
-        //                 'suhu_min' => $dayData['mintemp_c'] ?? 0,
-        //                 'suhu_max' => $dayData['maxtemp_c'] ?? 0,
-        //                 'suhu_optimum' => $dayData['avgtemp_c'] ?? 0,
-        //                 'kelembapan_min' => $dayData['minhumidity'] ?? 0,
-        //                 'kelembapan_max' => $dayData['maxhumidity'] ?? 0,
-        //                 'kelembapan_optimum' => $dayData['avghumidity'] ?? 0,
-        //                 'curah_hujan_min' => $curahHujanMin,
-        //                 'curah_hujan_max' => $curahHujanMax,
-        //                 'curah_hujan' => $curahHujan
-        //             ]
-        //         );
-        //     }
-        // }
+            $lat = $geoData[0]['lat'];
+            $lon = $geoData[0]['lon'];
 
-        // dd('selesai');
+            // =========================
+            // WEATHER API (AMBIL SEKALI)
+            // =========================
+            $weatherResponse = Http::get("https://api.weatherapi.com/v1/forecast.json", [
+                'key' => env('WEATHER_API_KEY'),
+                'q' => "{$lat},{$lon}",
+                'days' => 7
+            ]);
+
+            if (!$weatherResponse->successful()) {
+                continue;
+            }
+
+            $weatherData = $weatherResponse->json();
+
+            if (!isset($weatherData['forecast']['forecastday'])) {
+                continue;
+            }
+
+            foreach ($weatherData['forecast']['forecastday'] as $day) {
+
+                $tanggal = $day['date'];
+                $dayData = $day['day'];
+
+                $curahHujan = $dayData['totalprecip_mm'] ?? 0;
+
+                DB::table('weather_data')->updateOrInsert(
+                    [
+                        'kecamatan' => $namaKecamatan,
+                        'latitude' => $lat,
+                        'longitude' => $lon,
+                        'tanggal' => $tanggal
+                    ],
+                    [
+                        'suhu_min' => $dayData['mintemp_c'] ?? 0,
+                        'suhu_max' => $dayData['maxtemp_c'] ?? 0,
+                        'suhu_optimum' => $dayData['avgtemp_c'] ?? 0,
+                        'kelembapan_min' => $dayData['avghumidity'] ?? 0,
+                        'kelembapan_max' => $dayData['avghumidity'] ?? 0,
+                        'kelembapan_optimum' => $dayData['avghumidity'] ?? 0,
+                        'curah_hujan_min' => $curahHujan * 0.5,
+                        'curah_hujan_max' => $curahHujan,
+                        'curah_hujan' => $curahHujan
+                    ]
+                );
+            }
+        }
+
+        dd('selesai');
 
 
         $tanamanList = ['padi', 'cabai', 'bawang-merah'];
