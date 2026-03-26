@@ -29,7 +29,7 @@ class CuacaController extends Controller
 
     public function home()
     {
-        $filePath = storage_path('app/data/kecamatan-brebes.json');
+       $filePath = storage_path('app/data/kecamatan-brebes.json');
 
         if (!file_exists($filePath)) {
             return response()->json(['error' => 'File JSON tidak ditemukan'], 404);
@@ -41,75 +41,49 @@ class CuacaController extends Controller
             return response()->json(['error' => 'File JSON tidak valid'], 500);
         }
 
-        $kota = 'Brebes';
-
         foreach ($kecamatanBrebes as $kecamatan) {
 
             $namaKecamatan = $kecamatan['kecamatan'] ?? null;
-            if (!$namaKecamatan) continue;
+            $lat = $kecamatan['lat'] ?? null;
+            $lon = $kecamatan['lon'] ?? null;
 
-            // =========================
-            // GEO LOCATION
-            // =========================
-            $geoCacheKey = "geo_{$namaKecamatan}_{$kota}";
-
-            if (!Cache::has($geoCacheKey)) {
-
-                $geoResponse = Http::get("https://us1.locationiq.com/v1/search.php", [
-                    'key' => env('LOCATIONIQ_API_KEY'),
-                    'q' => "$namaKecamatan, $kota, Indonesia",
-                    'format' => 'json',
-                    'limit' => 1
-                ]);
-
-                if (!$geoResponse->successful()) {
-                    continue;
-                }
-
-                $geoData = $geoResponse->json();
-
-                // ✅ hanya cache kalau valid
-                if (!empty($geoData) && isset($geoData[0]['lat'], $geoData[0]['lon'])) {
-                    Cache::put($geoCacheKey, $geoData, now()->addDays(30));
-                } else {
-                    continue;
-                }
-
-            } else {
-                $geoData = Cache::get($geoCacheKey);
-            }
-
-            // Validasi lagi (double safety)
-            if (empty($geoData) || !isset($geoData[0]['lat'], $geoData[0]['lon'])) {
+            if (!$namaKecamatan || !$lat || !$lon) {
                 continue;
             }
 
-            $lat = $geoData[0]['lat'];
-            $lon = $geoData[0]['lon'];
-
             // =========================
-            // WEATHER API (AMBIL SEKALI)
+            // WEATHER API
             // =========================
-            $weatherResponse = Http::get("https://api.weatherapi.com/v1/forecast.json", [
+            $weatherResponse = Http::timeout(10)->get("https://api.weatherapi.com/v1/forecast.json", [
                 'key' => env('WEATHER_API_KEY'),
                 'q' => "{$lat},{$lon}",
                 'days' => 7
             ]);
 
             if (!$weatherResponse->successful()) {
+                \Log::error("Weather API gagal", [
+                    'kecamatan' => $namaKecamatan,
+                    'response' => $weatherResponse->body()
+                ]);
                 continue;
             }
 
             $weatherData = $weatherResponse->json();
 
             if (!isset($weatherData['forecast']['forecastday'])) {
+                \Log::error("Format weather tidak sesuai", [
+                    'kecamatan' => $namaKecamatan,
+                    'data' => $weatherData
+                ]);
                 continue;
             }
 
             foreach ($weatherData['forecast']['forecastday'] as $day) {
 
-                $tanggal = $day['date'];
-                $dayData = $day['day'];
+                $tanggal = $day['date'] ?? null;
+                $dayData = $day['day'] ?? null;
+
+                if (!$tanggal || !$dayData) continue;
 
                 $curahHujan = $dayData['totalprecip_mm'] ?? 0;
 
@@ -129,7 +103,9 @@ class CuacaController extends Controller
                         'kelembapan_optimum' => $dayData['avghumidity'] ?? 0,
                         'curah_hujan_min' => $curahHujan * 0.5,
                         'curah_hujan_max' => $curahHujan,
-                        'curah_hujan' => $curahHujan
+                        'curah_hujan' => $curahHujan,
+                        'updated_at' => now(),
+                        'created_at' => now()
                     ]
                 );
             }
