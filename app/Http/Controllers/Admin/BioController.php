@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tanaman;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver; // Dr
+use Illuminate\Support\Str;
 
 class BioController extends Controller
 {
@@ -45,18 +48,31 @@ class BioController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('hama_images', 'public');
-            $gambarUrl = Storage::url($gambarPath);
-        }
-        if ($request->hasFile('sebaran')) {
-            $sebaranPath = $request->file('sebaran')->store('hama_images', 'public');
-            $sebaranUrl = Storage::url($sebaranPath);
-        }
+        // Inisialisasi Image Manager (v3)
+        $manager = new ImageManager(new Driver());
 
-        $hama = Bio::create([
-            'gambar' => $gambarUrl ?? null,
-            'gambar' => $sebaranUrl ?? null,
+        // Fungsi helper untuk proses compress & convert ke WebP
+        $processImage = function($file) use ($manager) {
+            $filename = Str::random(20) . '.webp';
+            $path = 'hama_images/' . $filename;
+
+            // Gunakan variabel $file (argumen fungsi), BUKAN $request->file('gambar')
+            $encoded = $manager->read($file)->toWebp(80);
+
+            // Simpan ke storage public
+            Storage::disk('public')->put($path, (string) $encoded);
+
+            // Kembalikan path untuk disimpan di database
+            return Storage::url($path);
+        };
+
+        // Proses masing-masing file
+        $gambarPath = $request->hasFile('gambar') ? $processImage($request->file('gambar')) : null;
+        $sebaranPath = $request->hasFile('sebaran') ? $processImage($request->file('sebaran')) : null;
+
+        Bio::create([
+            'gambar' => $gambarPath,
+            'sebaran' => $sebaranPath,
             'nm_hama' => $request->nm_hama,
             'order' => $request->order,
             'suborder' => $request->suborder,
@@ -67,7 +83,8 @@ class BioController extends Controller
             'tanaman_id' => $tanaman->id,
         ]);
 
-        return redirect()->route('bio.index', ['tanaman' => $tanaman->nm_tanaman])->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('bio.index', ['tanaman' => $tanaman->nm_tanaman])
+                        ->with('success', 'Data berhasil ditambahkan dalam format WebP.');
     }
 
     /**
@@ -116,32 +133,46 @@ class BioController extends Controller
             'deskripsi' => 'required|string',
         ], $messages);
 
-        // Jika ada gambar baru, hapus gambar lama dan simpan gambar baru
+       $manager = new ImageManager(new Driver());
+
+        // Helper untuk hapus file lama & upload baru (WebP)
+        $updateImage = function($file, $oldPath) use ($manager) {
+            // 1. Hapus file lama jika ada
+            if ($oldPath) {
+                $relativeOldPath = str_replace('/storage/', '', $oldPath);
+                if (Storage::disk('public')->exists($relativeOldPath)) {
+                    Storage::disk('public')->delete($relativeOldPath);
+                }
+            }
+
+            // 2. Proses file baru ke WebP
+            $filename = Str::random(20) . '.webp';
+            $newPath = 'hama_images/' . $filename;
+            $encoded = $manager->read($file)->toWebp(80);
+
+            Storage::disk('public')->put($newPath, (string) $encoded);
+
+            return Storage::url($newPath);
+        };
+
+        // Update data text secara massal
+        $bio->fill($request->only([
+            'nm_hama', 'order', 'suborder', 'families', 'genus', 'species', 'deskripsi'
+        ]));
+
+        // Cek jika ada upload file baru
         if ($request->hasFile('gambar')) {
-            if ($bio->gambar) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $bio->gambar));
-            }
-
-            $imagePath = $request->file('gambar')->store('hama_images', 'public');
-            $validatedData['gambar'] = '/storage/' . $imagePath; // Simpan path lengkap
-        } else {
-            $validatedData['gambar'] = $bio->gambar; // Tetap pakai gambar lama
+            $bio->gambar = $updateImage($request->file('gambar'), $bio->gambar);
         }
+
         if ($request->hasFile('sebaran')) {
-            if ($bio->sebaran) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $bio->sebaran));
-            }
-
-            $imagePath = $request->file('sebaran')->store('hama_images', 'public');
-            $validatedData['sebaran'] = '/storage/' . $imagePath; // Simpan path lengkap
-        } else {
-            $validatedData['sebaran'] = $bio->sebaran; // Tetap pakai gambar lama
+            $bio->sebaran = $updateImage($request->file('sebaran'), $bio->sebaran);
         }
 
-        $bio->update($validatedData);
+        $bio->save();
 
         return redirect()->route('bio.index', $tanaman->nm_tanaman)
-            ->with('success', 'Data berhasil diperbarui!');
+            ->with('success', 'Data dan gambar berhasil diperbarui ke format WebP!');
     }
     /**
      * Remove the specified resource from storage.

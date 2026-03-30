@@ -25,7 +25,7 @@
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar</label>
                         <input type="file" class="form-control @error('gambar') is-invalid @enderror" name="gambar"
-                            id="gambarInput" accept="image/*" onchange="previewImage(event)">
+                            id="gambarInput" accept="image/*" onchange="previewImage(event, 'gambarPreview')">
 
                         @error('gambar')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -40,7 +40,7 @@
                     <div class="mb-3">
                         <label for="sebaran" class="form-label">Gambar Gejala Serangan</label>
                         <input type="file" class="form-control @error('sebaran') is-invalid @enderror" name="sebaran"
-                            id="sebaranInput" accept="image/*" onchange="previewImage(event)">
+                            id="sebaranInput" accept="image/*" onchange="previewImage(event, 'sebaranPreview')">
 
                         @error('sebaran')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -127,34 +127,19 @@
     </div>
 
     <script>
-        function previewImage(event) {
-            var input = event.target;
-            var reader = new FileReader();
+       function previewImage(event, targetId) {
+        const input = event.target;
+        const reader = new FileReader();
 
-            reader.onload = function() {
-                var imgElement = document.getElementById('gambarPreview');
-                imgElement.src = reader.result;
-                imgElement.style.display = "block";
-            };
+        reader.onload = function() {
+            const imgElement = document.getElementById(targetId);
+            imgElement.src = reader.result;
+            imgElement.style.display = "block";
+        };
 
-            if (input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
-            }
+        if (input.files && input.files[0]) {
+            reader.readAsDataURL(input.files[0]);
         }
-
-        function previewImage(event) {
-            var input = event.target;
-            var reader = new FileReader();
-
-            reader.onload = function() {
-                var imgElement = document.getElementById('sebaranPreview');
-                imgElement.src = reader.result;
-                imgElement.style.display = "block";
-            };
-
-            if (input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+    }
     </script>
 @endsection
