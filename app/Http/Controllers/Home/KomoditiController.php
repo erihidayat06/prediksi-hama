@@ -46,75 +46,77 @@ class KomoditiController extends Controller
 
     public function data()
     {
-        // Mapping variant_id ke tanaman_id
-        $tanamanMap = [
-            52 => 1, // Padi
-            9  => 2, // Cabai
-            13 => 3  // Bawang Merah
-        ];
-
+        $tanamanMap = [52 => 1, 9 => 2, 13 => 3];
         $variants = array_keys($tanamanMap);
 
-        // Rentang waktu: 32 hari sebelum 2 hari lalu
         $endDate = Carbon::today()->subDays(2)->format('Y-m-d');
         $startDate = Carbon::parse($endDate)->subDays(32)->format('Y-m-d');
 
-        $cacheKey = "harga_pangan_{$startDate}_{$endDate}";
+        $result = [];
+        $raw_debug = []; // Untuk intip isi asli API
 
-        $categorizedData = Cache::remember($cacheKey, now()->addDay(), function () use ($startDate, $endDate, $variants, $tanamanMap) {
-            $result = [];
+        foreach ($variants as $variant_id) {
+            // Gunakan parameter yang lebih lengkap sesuai kebutuhan API SP2KP
+            $url = "https://api-sp2kp.kemendag.go.id/report/api/hnt/history-series";
 
-            $currentDate = $startDate;
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Referer' => 'https://sp2kp.kemendag.go.id/',
+                    'Accept' => 'application/json',
+                ])->timeout(20)->get($url, [
+                    'tanggal_start' => $startDate,
+                    'tanggal_end'   => $endDate,
+                    'variant_id'    => $variant_id
+                ]);
 
-            while ($currentDate <= $endDate) {
-                foreach ($variants as $variant_id) {
-                    $url = "https://api-sp2kp.kemendag.go.id/report/api/average-price-public?level=1&tanggal=$currentDate&take=9999999&variant_id=$variant_id";
+                $body = $response->json();
+                $raw_debug[$variant_id] = $body; // Simpan respon mentah
 
-                    try {
-                        $response = Http::timeout(10)->get($url);
+                if ($response->ok() && isset($body['data'])) {
+                    $apiData = $body['data'];
 
-                        if (!$response->ok()) {
-                            Log::warning("Gagal ambil data variant_id $variant_id pada $currentDate. Status: " . $response->status());
-                            continue;
-                        }
+                    foreach ($apiData as $key => $item) {
+                        // dd($apiData);
+                        // DETEKSI TANGGAL: API series seringkali menggunakan tanggal sebagai KEY
+                        // atau dalam properti 'x' / 'tanggal'
+                        $tglRaw = $item['tanggal_data'] ?? $item['tgl'] ?? $item['x'] ?? (is_string($key) ? $key : null);
 
-                        $data = $response->json()['data'] ?? [];
+                        // DETEKSI HARGA: seringkali di properti 'y' atau 'harga'
+                        $hargaRaw = $item['harga'] ?? $item['harga_rata_rata'] ?? $item['y'] ?? null;
 
-                        foreach ($data as $item) {
-                            if ($item['nama_provinsi'] === 'Jawa Tengah') {
-                                $tanaman_id = $tanamanMap[$variant_id];
+                        if (!$tglRaw || $hargaRaw === null) continue;
 
-                                Komoditi::updateOrCreate(
-                                    [
-                                        'nama_provinsi' => $item['nama_provinsi'],
-                                        'tanaman_id'    => $tanaman_id,
-                                        'tanggal'       => $currentDate,
-                                    ],
-                                    [
-                                        'harga_provinsi' => $item['harga']
-                                    ]
-                                );
+                        $tglFix = Carbon::parse($tglRaw)->startOfDay()->toDateTimeString();
+                        $hargaFix = (int) preg_replace('/[^0-9]/', '', (string)$hargaRaw);
 
-                                $result[$tanaman_id][] = [
-                                    'tanggal'        => $currentDate,
-                                    'nama_provinsi'  => $item['nama_provinsi'],
-                                    'harga_provinsi' => $item['harga'],
-                                ];
-                            }
-                        }
-                    } catch (\Exception $e) {
-                        Log::error("Error API variant_id $variant_id ($currentDate): " . $e->getMessage());
-                        continue;
+                        // Eksekusi Database
+                        \App\Models\Komoditi::updateOrCreate(
+                            [
+                                'tanggal'       => $tglFix,
+                                'tanaman_id'    => $tanamanMap[$variant_id],
+                                'nama_provinsi' => 'Jawa Tengah',
+                            ],
+                            ['harga_provinsi' => $hargaFix]
+                        );
+
+                        $result[] = [
+                            'variant_id' => $variant_id,
+                            'tanggal'    => $tglFix,
+                            'harga'      => $hargaFix
+                        ];
                     }
                 }
-
-                $currentDate = Carbon::parse($currentDate)->addDay()->format('Y-m-d');
+            } catch (\Exception $e) {
+                $raw_debug['errors'][] = $e->getMessage();
             }
+        }
 
-            return $result;
-        });
-
-        // Debug
-        dd($categorizedData);
+        // Jika $result kosong, kita tampilkan $raw_debug untuk tahu isi asli API
+        return response()->json([
+            'is_empty' => empty($result),
+            'debug_api_response' => $raw_debug,
+            'processed_data' => $result
+        ]);
     }
 }

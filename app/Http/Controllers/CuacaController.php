@@ -29,89 +29,89 @@ class CuacaController extends Controller
 
     public function home()
     {
-    //    $filePath = storage_path('app/data/kecamatan-brebes.json');
+        //    $filePath = storage_path('app/data/kecamatan-brebes.json');
 
-    //     if (!file_exists($filePath)) {
-    //         return response()->json(['error' => 'File JSON tidak ditemukan'], 404);
-    //     }
+        //     if (!file_exists($filePath)) {
+        //         return response()->json(['error' => 'File JSON tidak ditemukan'], 404);
+        //     }
 
-    //     $kecamatanBrebes = json_decode(file_get_contents($filePath), true);
+        //     $kecamatanBrebes = json_decode(file_get_contents($filePath), true);
 
-    //     if (!$kecamatanBrebes) {
-    //         return response()->json(['error' => 'File JSON tidak valid'], 500);
-    //     }
+        //     if (!$kecamatanBrebes) {
+        //         return response()->json(['error' => 'File JSON tidak valid'], 500);
+        //     }
 
-    //     foreach ($kecamatanBrebes as $kecamatan) {
+        //     foreach ($kecamatanBrebes as $kecamatan) {
 
-    //         $namaKecamatan = $kecamatan['kecamatan'] ?? null;
-    //         $lat = $kecamatan['lat'] ?? null;
-    //         $lon = $kecamatan['lon'] ?? null;
+        //         $namaKecamatan = $kecamatan['kecamatan'] ?? null;
+        //         $lat = $kecamatan['lat'] ?? null;
+        //         $lon = $kecamatan['lon'] ?? null;
 
-    //         if (!$namaKecamatan || !$lat || !$lon) {
-    //             continue;
-    //         }
+        //         if (!$namaKecamatan || !$lat || !$lon) {
+        //             continue;
+        //         }
 
-    //         // =========================
-    //         // WEATHER API
-    //         // =========================
-    //         $weatherResponse = Http::timeout(10)->get("https://api.weatherapi.com/v1/forecast.json", [
-    //             'key' => env('WEATHER_API_KEY'),
-    //             'q' => "{$lat},{$lon}",
-    //             'days' => 7
-    //         ]);
+        //         // =========================
+        //         // WEATHER API
+        //         // =========================
+        //         $weatherResponse = Http::timeout(10)->get("https://api.weatherapi.com/v1/forecast.json", [
+        //             'key' => env('WEATHER_API_KEY'),
+        //             'q' => "{$lat},{$lon}",
+        //             'days' => 7
+        //         ]);
 
-    //         if (!$weatherResponse->successful()) {
-    //             \Log::error("Weather API gagal", [
-    //                 'kecamatan' => $namaKecamatan,
-    //                 'response' => $weatherResponse->body()
-    //             ]);
-    //             continue;
-    //         }
+        //         if (!$weatherResponse->successful()) {
+        //             \Log::error("Weather API gagal", [
+        //                 'kecamatan' => $namaKecamatan,
+        //                 'response' => $weatherResponse->body()
+        //             ]);
+        //             continue;
+        //         }
 
-    //         $weatherData = $weatherResponse->json();
+        //         $weatherData = $weatherResponse->json();
 
-    //         if (!isset($weatherData['forecast']['forecastday'])) {
-    //             \Log::error("Format weather tidak sesuai", [
-    //                 'kecamatan' => $namaKecamatan,
-    //                 'data' => $weatherData
-    //             ]);
-    //             continue;
-    //         }
+        //         if (!isset($weatherData['forecast']['forecastday'])) {
+        //             \Log::error("Format weather tidak sesuai", [
+        //                 'kecamatan' => $namaKecamatan,
+        //                 'data' => $weatherData
+        //             ]);
+        //             continue;
+        //         }
 
-    //         foreach ($weatherData['forecast']['forecastday'] as $day) {
+        //         foreach ($weatherData['forecast']['forecastday'] as $day) {
 
-    //             $tanggal = $day['date'] ?? null;
-    //             $dayData = $day['day'] ?? null;
+        //             $tanggal = $day['date'] ?? null;
+        //             $dayData = $day['day'] ?? null;
 
-    //             if (!$tanggal || !$dayData) continue;
+        //             if (!$tanggal || !$dayData) continue;
 
-    //             $curahHujan = $dayData['totalprecip_mm'] ?? 0;
+        //             $curahHujan = $dayData['totalprecip_mm'] ?? 0;
 
-    //             DB::table('weather_data')->updateOrInsert(
-    //                 [
-    //                     'kecamatan' => $namaKecamatan,
-    //                     'latitude' => $lat,
-    //                     'longitude' => $lon,
-    //                     'tanggal' => $tanggal
-    //                 ],
-    //                 [
-    //                     'suhu_min' => $dayData['mintemp_c'] ?? 0,
-    //                     'suhu_max' => $dayData['maxtemp_c'] ?? 0,
-    //                     'suhu_optimum' => $dayData['avgtemp_c'] ?? 0,
-    //                     'kelembapan_min' => $dayData['avghumidity'] ?? 0,
-    //                     'kelembapan_max' => $dayData['avghumidity'] ?? 0,
-    //                     'kelembapan_optimum' => $dayData['avghumidity'] ?? 0,
-    //                     'curah_hujan_min' => $curahHujan * 0.5,
-    //                     'curah_hujan_max' => $curahHujan,
-    //                     'curah_hujan' => $curahHujan,
-    //                     'updated_at' => now(),
-    //                     'created_at' => now()
-    //                 ]
-    //             );
-    //         }
-    //     }
+        //             DB::table('weather_data')->updateOrInsert(
+        //                 [
+        //                     'kecamatan' => $namaKecamatan,
+        //                     'latitude' => $lat,
+        //                     'longitude' => $lon,
+        //                     'tanggal' => $tanggal
+        //                 ],
+        //                 [
+        //                     'suhu_min' => $dayData['mintemp_c'] ?? 0,
+        //                     'suhu_max' => $dayData['maxtemp_c'] ?? 0,
+        //                     'suhu_optimum' => $dayData['avgtemp_c'] ?? 0,
+        //                     'kelembapan_min' => $dayData['avghumidity'] ?? 0,
+        //                     'kelembapan_max' => $dayData['avghumidity'] ?? 0,
+        //                     'kelembapan_optimum' => $dayData['avghumidity'] ?? 0,
+        //                     'curah_hujan_min' => $curahHujan * 0.5,
+        //                     'curah_hujan_max' => $curahHujan,
+        //                     'curah_hujan' => $curahHujan,
+        //                     'updated_at' => now(),
+        //                     'created_at' => now()
+        //                 ]
+        //             );
+        //         }
+        //     }
 
-    //     dd('selesai');
+        //     dd('selesai');
 
 
         $tanamanList = ['padi', 'cabai', 'bawang-merah'];
